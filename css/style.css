@@ -1,0 +1,39 @@
+/* Page */
+body {
+  margin: 0;
+  background: #ffffff;
+  color: #2b2b2b;
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+}
+.page {
+  max-width: 1100px;      /* fits a 1280 px laptop with margins */
+  margin: 0 auto;
+  padding: 48px 32px;
+}
+
+/* Type hierarchy: three sizes only */
+h1, h2 { font-family: "Fraunces", serif; font-weight: 600; line-height: 1.2; }
+h1 { font-size: 48px; margin: 0 0 16px; }
+h2 { font-size: 30px; margin: 0 0 24px; }
+p  { max-width: 60ch; margin: 0 0 16px; }   /* about 60 characters a line */
+.intro { font-size: 22px; }
+
+/* Layout: a 12-column grid */
+section { margin-top: 96px; }               /* white space between sections */
+.row {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 32px;
+  margin-bottom: 48px;
+  align-items: start;
+}
+.col-4  { grid-column: span 4; }
+.col-6  { grid-column: span 6; }
+.col-8  { grid-column: span 8; }
+.col-12 { grid-column: span 12; }
+.chart  { width: 100%; }                    /* charts fill their column */
+
+/* Footer metadata */
+footer { margin-top: 96px; padding-top: 24px; border-top: 1px solid #d9d9d9; font-size: 15px; color: #5f5f5f; }
