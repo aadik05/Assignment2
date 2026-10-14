@@ -1,0 +1,124 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Australia's certified organic farmland has grown more than fourfold",
+    "subtitle": "Certified organic agricultural land in Australia, million hectares, 2004–2023",
+    "anchor": "start",
+    "font": "Fraunces, serif",
+    "fontSize": 22,
+    "fontWeight": 600,
+    "color": "#2b2b2b",
+    "subtitleFont": "'Source Sans 3', sans-serif",
+    "subtitleFontSize": 16,
+    "subtitleFontWeight": 400,
+    "subtitleColor": "#5f5f5f",
+    "subtitlePadding": 6,
+    "offset": 24
+  },
+  "width": "container",
+  "height": 340,
+  "data": {
+    "url": "data/organic_area.csv",
+    "format": {
+      "type": "csv",
+      "parse": {"year": "number", "organic_ha": "number"}
+    }
+  },
+  "transform": [
+    {"filter": "datum.code == 'AUS'"},
+    {"calculate": "datum.organic_ha / 1000000", "as": "organic_m"}
+  ],
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "quantitative",
+      "title": "Year",
+      "scale": {"domain": [2004, 2023]},
+      "axis": {
+        "format": "d",
+        "values": [2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023],
+        "grid": false,
+        "labelAngle": 0,
+        "labelFlush": false,
+        "titlePadding": 10
+      }
+    },
+    "y": {
+      "field": "organic_m",
+      "type": "quantitative",
+      "title": "Million hectares",
+      "scale": {"domain": [0, 60]},
+      "axis": {"tickCount": 6}
+    }
+  },
+  "layer": [
+    {
+      "mark": {"type": "area", "color": "#d95f02", "opacity": 0.1}
+    },
+    {
+      "mark": {"type": "line", "color": "#d95f02", "strokeWidth": 3}
+    },
+    {
+      "mark": {"type": "point", "color": "#d95f02", "filled": true, "opacity": 1, "size": 45},
+      "encoding": {
+        "tooltip": [
+          {"field": "year", "type": "quantitative", "title": "Year", "format": "d"},
+          {"field": "organic_m", "type": "quantitative", "title": "Organic land (million ha)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "transform": [
+        {"filter": "datum.year == 2004 || datum.year == 2023"},
+        {"calculate": "format(datum.organic_m, '.1f') + 'M ha'", "as": "label"}
+      ],
+      "mark": {
+        "type": "text",
+        "align": {"expr": "datum.year == 2004 ? 'left' : 'right'"},
+        "dy": -18,
+        "fontSize": 16,
+        "fontWeight": 600,
+        "color": "#2b2b2b"
+      },
+      "encoding": {
+        "text": {"field": "label"}
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"year": 2014.6, "organic_m": 32, "label": "2013–2017: organic land"},
+          {"year": 2014.6, "organic_m": 29, "label": "more than triples"},
+          {"year": 2019.5, "organic_m": 40.5, "label": "Same total reported each year, 2017–2022"}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": {"expr": "datum.year > 2017 ? 'center' : 'right'"},
+        "fontSize": 14,
+        "color": "#5f5f5f"
+      },
+      "encoding": {
+        "text": {"field": "label"}
+      }
+    }
+  ],
+  "config": {
+    "background": "transparent",
+    "font": "'Source Sans 3', sans-serif",
+    "view": {"stroke": null},
+    "axis": {
+      "labelFont": "'Source Sans 3', sans-serif",
+      "titleFont": "'Source Sans 3', sans-serif",
+      "labelFontSize": 14,
+      "titleFontSize": 14,
+      "titleFontWeight": 400,
+      "titleColor": "#5f5f5f",
+      "labelColor": "#5f5f5f",
+      "gridColor": "#e6e6e6",
+      "domainColor": "#999999",
+      "tickColor": "#999999"
+    },
+    "text": {"font": "'Source Sans 3', sans-serif"}
+  }
+}
