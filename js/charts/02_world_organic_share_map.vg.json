@@ -1,0 +1,139 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "15% of Australia's farmland is now certified organic, up from 3% in 2004",
+    "subtitle": "Share of each country's farmland that is certified organic. Drag the slider to move through the years. Grey: no data.",
+    "anchor": "start",
+    "font": "Fraunces, serif",
+    "fontSize": 22,
+    "fontWeight": 600,
+    "color": "#2b2b2b",
+    "subtitleFont": "'Source Sans 3', sans-serif",
+    "subtitleFontSize": 16,
+    "subtitleFontWeight": 400,
+    "subtitleColor": "#5f5f5f",
+    "subtitlePadding": 6,
+    "offset": 16
+  },
+  "width": "container",
+  "height": 480,
+  "params": [
+    {
+      "name": "selected_year",
+      "value": 2023,
+      "bind": {"input": "range", "min": 2004, "max": 2023, "step": 1, "name": "Year "}
+    }
+  ],
+  "projection": {"type": "equalEarth"},
+  "layer": [
+    {
+      "data": {
+        "url": "data/ne_110m_admin_0_countries.topojson",
+        "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+      },
+      "transform": [{"filter": "datum.properties.ADM0_A3 != 'ATA'"}],
+      "mark": {"type": "geoshape", "fill": "#dcdcdc", "stroke": "#ffffff", "strokeWidth": 0.5}
+    },
+    {
+      "data": {
+        "url": "data/organic_area.csv",
+        "format": {
+          "type": "csv",
+          "parse": {"year": "number", "organic_ha": "number", "farm_ha": "number"}
+        }
+      },
+      "transform": [
+        {"filter": "datum.year == selected_year"},
+        {"filter": "length(datum.code) == 3 && isValid(datum.organic_ha) && datum.farm_ha > 0"},
+        {"calculate": "datum.organic_ha / datum.farm_ha * 100", "as": "share"},
+        {
+          "calculate": "datum.share < 1 ? 'Under 1%' : datum.share < 2 ? '1–2%' : datum.share < 5 ? '2–5%' : datum.share < 10 ? '5–10%' : datum.share < 20 ? '10–20%' : '20% or more'",
+          "as": "band"
+        },
+        {
+          "lookup": "code",
+          "from": {
+            "data": {
+              "url": "data/ne_110m_admin_0_countries.topojson",
+              "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+            },
+            "key": "properties.ADM0_A3"
+          },
+          "as": "geo"
+        },
+        {"filter": "isValid(datum.geo)"}
+      ],
+      "mark": {"type": "geoshape", "stroke": "#ffffff", "strokeWidth": 0.5},
+      "encoding": {
+        "shape": {"field": "geo", "type": "geojson"},
+        "color": {
+          "field": "band",
+          "type": "ordinal",
+          "title": "% of farmland that is certified organic",
+          "scale": {
+            "domain": ["Under 1%", "1–2%", "2–5%", "5–10%", "10–20%", "20% or more"],
+            "range": ["#edf8e9", "#c7e9c0", "#a1d99b", "#74c476", "#31a354", "#006d2c"]
+          },
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "titleLimit": 400,
+            "symbolType": "square",
+            "symbolSize": 200,
+            "symbolStrokeColor": "#bdbdbd",
+            "symbolStrokeWidth": 0.5,
+            "columnPadding": 16
+          }
+        },
+        "tooltip": [
+          {"field": "country", "type": "nominal", "title": "Country"},
+          {"field": "year", "type": "quantitative", "title": "Year", "format": "d"},
+          {"field": "share", "type": "quantitative", "title": "Farmland that is organic (%)", "format": ".1f"},
+          {"field": "organic_ha", "type": "quantitative", "title": "Organic land (ha)", "format": ",.0f"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/ne_110m_admin_0_countries.topojson",
+        "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+      },
+      "transform": [{"filter": "datum.properties.ADM0_A3 == 'AUS'"}],
+      "mark": {"type": "geoshape", "fill": null, "fillOpacity": 0, "stroke": "#d95f02", "strokeWidth": 2.5}
+    },
+    {
+      "data": {
+        "url": "data/organic_area.csv",
+        "format": {
+          "type": "csv",
+          "parse": {"year": "number", "organic_ha": "number", "farm_ha": "number"}
+        }
+      },
+      "transform": [
+        {"filter": "datum.code == 'AUS' && datum.year == selected_year"},
+        {"calculate": "'Australia: ' + format(datum.organic_ha / datum.farm_ha * 100, '.1f') + '% organic'", "as": "label"}
+      ],
+      "mark": {"type": "text", "fontSize": 15, "fontWeight": 600, "color": "#d95f02"},
+      "encoding": {
+        "longitude": {"datum": 134},
+        "latitude": {"datum": -47},
+        "text": {"field": "label"}
+      }
+    }
+  ],
+  "config": {
+    "background": "transparent",
+    "font": "'Source Sans 3', sans-serif",
+    "view": {"stroke": null},
+    "legend": {
+      "labelFont": "'Source Sans 3', sans-serif",
+      "titleFont": "'Source Sans 3', sans-serif",
+      "labelFontSize": 14,
+      "titleFontSize": 14,
+      "titleFontWeight": 400,
+      "titleColor": "#5f5f5f",
+      "labelColor": "#5f5f5f"
+    },
+    "text": {"font": "'Source Sans 3', sans-serif"}
+  }
+}
