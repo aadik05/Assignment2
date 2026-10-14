@@ -2,7 +2,9 @@
 var charts = [
   ["#chart1", "js/charts/01_australia_land_trend.vg.json"],
   ["#chart2", "js/charts/02_world_organic_share_map.vg.json"],
-  ["#chart3", "js/charts/03_world_organic_area_symbols.vg.json"]
+  ["#chart3", "js/charts/03_world_organic_area_symbols.vg.json"],
+  ["#chart4", "js/charts/04_australia_states_map.vg.json"]
+
 
 ];
 
