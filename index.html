@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Australia, the organic giant</title>
+  <link rel="icon" href="data:,">
 
   <!-- Fonts from Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,61 +19,77 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Organic farming in Australia</p>
+      <h1>Australia, the organic giant</h1>
+      <p class="intro">Australia has more certified organic farmland than any other country, about half of the world's total. This page follows that land from the paddock to the port to the supermarket checkout, and asks whether Australians' own appetite for organic food has kept pace.</p>
+      <p class="byline">By Aadi Kapoor · October 2026</p>
+
+      <div class="stats">
+        <div class="stat"><div class="stat-number">53.0M ha</div><div class="stat-label">certified organic farmland in Australia, 2023</div></div>
+        <div class="stat"><div class="stat-number">4.4×</div><div class="stat-label">growth in organic land since 2004</div></div>
+        <div class="stat"><div class="stat-number">54%</div><div class="stat-label">of the world's organic farmland is Australian</div></div>
+        <div class="stat"><div class="stat-number">AU$658m</div><div class="stat-label">spent on organic groceries in Australia, 2024/25</div></div>
+      </div>
+    </div>
+  </header>
+
   <main class="page">
 
-    <header>
-      <h1>Australia, the organic giant</h1>
-      <p class="intro">Placeholder: two sentences telling the reader what this page will show them.</p>
-    </header>
+    <section>
+      <span class="kicker">Part 1</span>
+      <h2>Australia's organic boom</h2>
+      <p class="lead">In 2004, 12.1 million hectares of Australian farmland were certified organic. By 2023 it was 53.0 million, more than four times as much and about 15% of all the country's farmland.</p>
+      <div class="row">
+        <div class="col-12"><div id="chart1" class="chart"></div></div>
+      </div>
+      <p class="note">The same total was reported for every year from 2017 to 2022, which suggests the figure was not updated in those years. In 2026 the Department of Agriculture revised its estimate to 44.4 million hectares using a new method. This page uses the UN FAO series so that years and countries can be compared fairly.</p>
+    </section>
 
     <section>
-      <h2>1. Australia's Organic Boom</h2>
-      <p>Placeholder text for section 1.</p>
-
+      <span class="kicker">Part 2</span>
+      <h2>Australia, the organic giant</h2>
+      <p class="lead">As a share of its farmland, Australia (14.6%) ranks 13th in the world, behind countries such as Austria (27%) and Uruguay (25%). Drag the slider to watch organic farming spread since 2004.</p>
       <div class="row">
-        <div class="col-12">
-          <div id="chart1" class="chart"></div>
+        <div class="col-12"><div id="chart2" class="chart"></div></div>
+      </div>
+      <p>Measured in hectares, however, Australia has no rival. Its 53.0 million hectares are more than the next 14 countries combined.</p>
+      <div class="row">
+        <div class="col-12"><div id="chart3" class="chart"></div></div>
+      </div>
+      <div class="row">
+        <div class="col-6"><div id="chart5" class="chart"></div></div>
+        <div class="col-6">
+          <p class="lead">More than half of all the certified organic farmland on Earth is in Australia.</p>
+          <p>And it is spread very unevenly. In the Northern Territory, Tasmania and the ACT, there are about 136,000 hectares of organic land for every certified operator. In Victoria, there are fewer than 100.</p>
         </div>
       </div>
-    </section>
-
-    <section>
-      <h2>2. Australia, the organic giant</h2>
-      <p>Placeholder text for section 2.</p>
-
+      <p>Within Australia, the land and the people are in different places. Most organic land is in the Northern Territory, South Australia and Queensland, while most certified farms and businesses are in Victoria and New South Wales.</p>
       <div class="row">
-      <div class="col-12">
-        <div id="chart2" class="chart"></div>
+        <div class="col-12"><div id="chart4" class="chart"></div></div>
       </div>
-    </div>
     </section>
 
     <section>
-      <h2>3. From paddock to port</h2>
+      <span class="kicker">Part 3</span>
+      <h2>From paddock to port</h2>
       <p>Placeholder text for section 3.</p>
-
-      <div class="row">
-      <div class="col-12">
-        <div id="chart3" class="chart"></div>
-      </div>
-    </div>
     </section>
 
     <section>
-      <h2>4. At the checkout</h2>
+      <span class="kicker">Part 4</span>
+      <h2>At the checkout</h2>
       <p>Placeholder text for section 4.</p>
-
-      <div class="row">
-      <div class="col-12">
-        <div id="chart4" class="chart"></div>
-      </div>
-    </div>
     </section>
 
     <footer>
+      <h3>About this page</h3>
       <p>Created by Aadi Kapoor, October 2026, for FIT3179 Data Visualisation at Monash University.</p>
-      <p>Data sources: to be added as each chart is built.</p>
-      <p>AI acknowledgement: to be completed before submission.</p>
+      <p>Data: certified organic and agricultural land, UN Food and Agriculture Organization (FAOSTAT), processed by <a href="https://ourworldindata.org/grapher/organic-agricultural-area">Our World in Data</a>; <a href="https://austorganic.com/wp-content/uploads/2026/08/Australian-Organic-Market-Report-Snapshot-2026.pdf">Australian Organic Market Report Snapshot 2026</a> (Australian Organic Limited), including data from NielsenIQ Homescan, Mobium Group and the Department of Agriculture, Fisheries and Forestry.</p>
+      <p>Maps: <a href="https://www.naturalearthdata.com/">Natural Earth</a> country and state boundaries (public domain); world TopoJSON from the FIT3179 Vega-Lite studio repository; state boundaries simplified with mapshaper. Country centre points: <a href="https://developers.google.com/public-data/docs/canonical/countries_csv">Google DSPL countries.csv</a>.</p>
+      <p>AI acknowledgement: say here which AI tool you used and what for.</p>
     </footer>
 
   </main>

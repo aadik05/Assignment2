@@ -1,39 +1,149 @@
-/* Page */
+/* ---------- Colours used across the whole page ---------- */
+:root {
+  --bg: #fbfaf7;          /* warm off-white page */
+  --card: #ffffff;        /* white panels behind charts */
+  --ink: #2b2b2b;         /* main text */
+  --muted: #5f5f5f;       /* secondary text */
+  --line: #e4e1da;        /* thin borders and rules */
+  --accent: #d95f02;      /* Australia orange, same as the charts */
+  --green: #31a354;       /* organic green, same as the charts */
+  --green-tint: #eef6ea;  /* pale green for the header band */
+}
+
+/* ---------- Page ---------- */
+* { box-sizing: border-box; }
 body {
   margin: 0;
-  background: #ffffff;
-  color: #2b2b2b;
+  background: var(--bg);
+  color: var(--ink);
   font-family: "Source Sans 3", sans-serif;
   font-size: 18px;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 .page {
-  max-width: 1100px;      /* fits a 1280 px laptop with margins */
+  max-width: 1100px;      /* fits a small laptop without sideways scrolling */
   margin: 0 auto;
-  padding: 48px 32px;
+  padding: 0 32px 48px;
 }
 
-/* Type hierarchy: three sizes only */
-h1, h2 { font-family: "Fraunces", serif; font-weight: 600; line-height: 1.2; }
-h1 { font-size: 48px; margin: 0 0 16px; }
-h2 { font-size: 30px; margin: 0 0 24px; }
-p  { max-width: 60ch; margin: 0 0 16px; }   /* about 60 characters a line */
-.intro { font-size: 22px; }
+/* ---------- Header ---------- */
+.hero {
+  background: var(--green-tint);
+  border-bottom: 1px solid var(--line);
+  padding: 72px 0 48px;
+  margin-bottom: 24px;
+}
+.hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+.eyebrow {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin: 0 0 12px;
+}
+h1 {
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+  font-size: 52px;
+  line-height: 1.1;
+  margin: 0 0 20px;
+}
+.intro { font-size: 22px; max-width: 62ch; margin: 0 0 12px; }
+.byline { font-size: 15px; color: var(--muted); margin: 0; }
 
-/* Layout: a 12-column grid */
-section { margin-top: 96px; }               /* white space between sections */
+/* Key numbers under the title */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 36px;
+}
+.stat {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+.stat-number {
+  font-family: "Fraunces", serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--accent);
+  line-height: 1.1;
+}
+.stat-label { font-size: 15px; color: var(--muted); line-height: 1.4; }
+
+/* ---------- Sections ---------- */
+section { margin-top: 88px; }
+.kicker {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+h2 {
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+  font-size: 34px;
+  line-height: 1.2;
+  margin: 0 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--line);
+}
+p { max-width: 65ch; margin: 0 0 16px; }   /* comfortable line length */
+.lead { font-size: 20px; }
+.note { font-size: 15px; color: var(--muted); }
+
+/* ---------- 12-column grid ---------- */
 .row {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   column-gap: 32px;
-  margin-bottom: 48px;
-  align-items: start;
+  margin: 32px 0;
+  align-items: center;
 }
 .col-4  { grid-column: span 4; }
 .col-6  { grid-column: span 6; }
 .col-8  { grid-column: span 8; }
 .col-12 { grid-column: span 12; }
-.chart  { width: 100%; }                    /* charts fill their column */
 
-/* Footer metadata */
-footer { margin-top: 96px; padding-top: 24px; border-top: 1px solid #d9d9d9; font-size: 15px; color: #5f5f5f; }
+/* White panel behind each chart: separates figure from ground */
+.chart {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+/* Year slider created by Vega-Lite */
+.vega-bind {
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 15px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+.vega-bind input[type="range"] { accent-color: var(--accent); width: 260px; vertical-align: middle; }
+
+/* ---------- Footer ---------- */
+footer {
+  margin-top: 96px;
+  padding-top: 24px;
+  border-top: 2px solid var(--line);
+  font-size: 15px;
+  color: var(--muted);
+}
+footer h3 { font-family: "Fraunces", serif; color: var(--ink); font-size: 20px; margin: 0 0 8px; }
+footer p { max-width: none; }
+footer a { color: var(--green); }
+
+/* ---------- Narrower screens: stack the columns ---------- */
+@media (max-width: 860px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .col-4, .col-6, .col-8 { grid-column: span 12; }
+  h1 { font-size: 40px; }
+}

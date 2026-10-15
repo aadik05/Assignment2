@@ -1,0 +1,62 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "54 of every 100 organic hectares are Australian",
+    "subtitle": "Each square is 1% of the world's certified organic farmland, 2023",
+    "anchor": "start",
+    "font": "Fraunces, serif",
+    "fontSize": 22,
+    "fontWeight": 600,
+    "color": "#2b2b2b",
+    "subtitleFont": "'Source Sans 3', sans-serif",
+    "subtitleFontSize": 16,
+    "subtitleFontWeight": 400,
+    "subtitleColor": "#5f5f5f",
+    "subtitlePadding": 6,
+    "offset": 16
+  },
+  "width": 340,
+  "height": 340,
+  "data": {
+    "url": "data/organic_area.csv",
+    "format": {"type": "csv", "parse": {"year": "number", "organic_ha": "number"}}
+  },
+  "transform": [
+    {"filter": "datum.year == 2023 && (datum.code == 'AUS' || datum.code == 'OWID_WRL')"},
+    {"calculate": "datum.code == 'OWID_WRL' ? datum.organic_ha : 0", "as": "world_part"},
+    {"joinaggregate": [{"op": "sum", "field": "world_part", "as": "world_ha"}]},
+    {"filter": "datum.code == 'AUS'"},
+    {"calculate": "round(datum.organic_ha / datum.world_ha * 100)", "as": "aus_squares"},
+    {"calculate": "sequence(1, 101)", "as": "square"},
+    {"flatten": ["square"]},
+    {"calculate": "(datum.square - 1) % 10", "as": "col"},
+    {"calculate": "floor((datum.square - 1) / 10)", "as": "row"},
+    {"calculate": "datum.square <= datum.aus_squares ? 'Australia' : 'Rest of the world'", "as": "owner"}
+  ],
+  "mark": {"type": "square", "size": 700, "opacity": 1},
+  "encoding": {
+    "x": {"field": "col", "type": "ordinal", "axis": null},
+    "y": {"field": "row", "type": "ordinal", "axis": null},
+    "color": {
+      "field": "owner",
+      "type": "nominal",
+      "title": null,
+      "scale": {"domain": ["Australia", "Rest of the world"], "range": ["#d95f02", "#cfe8c9"]},
+      "legend": {"orient": "bottom", "direction": "horizontal", "symbolType": "square", "symbolSize": 200}
+    },
+    "tooltip": [
+      {"field": "owner", "type": "nominal", "title": "Where"},
+      {"field": "aus_squares", "type": "quantitative", "title": "Australia's share (%)"}
+    ]
+  },
+  "config": {
+    "background": "transparent",
+    "font": "'Source Sans 3', sans-serif",
+    "view": {"stroke": null},
+    "legend": {
+      "labelFont": "'Source Sans 3', sans-serif",
+      "labelFontSize": 15,
+      "labelColor": "#2b2b2b"
+    }
+  }
+}
