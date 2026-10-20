@@ -8,6 +8,8 @@
   --accent: #d95f02;      /* Australia orange, same as the charts */
   --green: #31a354;       /* organic green, same as the charts */
   --green-tint: #eef6ea;  /* pale green for the header band */
+  --blue: #08519c;        /* people and money (operators, shoppers, prices), same as the charts */
+  --context: #b8b2a7;     /* warm grey for "everyone else" in the charts */
 }
 
 /* ---------- Page ---------- */
@@ -115,9 +117,9 @@ p { max-width: 65ch; margin: 0 0 16px; }   /* comfortable line length */
 .chart {
   width: 100%;
   background: var(--card);
-  border: 1px solid var(--line);
+  border: 24px solid transparent;          /* inner spacing: Vega-Lite measures the width inside this */
+  box-shadow: 0 0 0 1px var(--line);       /* the thin visible outline */
   border-radius: 12px;
-  padding: 24px;
 }
 
 /* Year slider created by Vega-Lite */
@@ -146,4 +148,35 @@ footer a { color: var(--green); }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .col-4, .col-6, .col-8 { grid-column: span 12; }
   h1 { font-size: 40px; }
+}
+
+/* ---------- Two charts side by side, text above each ---------- */
+.pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);  /* two equal columns */
+  column-gap: 32px;
+  row-gap: 16px;
+  margin: 32px 0;
+  align-items: stretch;           /* both chart panels end up the same height */
+}
+.pair .pair-text { max-width: none; margin: 0; align-self: start; }
+.pair .chart { height: 100%; }
+.pair .t1 { grid-column: 1; grid-row: 1; }
+.pair .t2 { grid-column: 2; grid-row: 1; }
+.pair .c1 { grid-column: 1; grid-row: 2; }
+.pair .c2 { grid-column: 2; grid-row: 2; }
+.stat-inline {
+  display: block;
+  font-family: "Fraunces", serif;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--accent);
+}
+@media (max-width: 860px) {
+  .pair { grid-template-columns: 1fr; }
+  .pair .t1 { grid-column: 1; grid-row: 1; }
+  .pair .c1 { grid-column: 1; grid-row: 2; }
+  .pair .t2 { grid-column: 1; grid-row: 3; }
+  .pair .c2 { grid-column: 1; grid-row: 4; }
 }

@@ -1,8 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Most organic land is in the north and centre, most operators in the south-east",
-    "subtitle": "Certified organic land per certified operator (colour) and number of operators (circles), by state, 2026",
+    "text": ["The land is in the north and centre,", "the operators in the south-east"],
+    "subtitle": [
+      "Organic land per certified operator (colour) and number of",
+      "operators (circles), by state, 2026. Tasmania and the ACT",
+      "are reported together with the Northern Territory."
+    ],
     "anchor": "start",
     "font": "Fraunces, serif",
     "fontSize": 22,
@@ -13,10 +17,12 @@
     "subtitleFontWeight": 400,
     "subtitleColor": "#5f5f5f",
     "subtitlePadding": 6,
-    "offset": 16
+    "offset": 16,
+    "lineHeight": 28,
+    "subtitleLineHeight": 20
   },
   "width": "container",
-  "height": 520,
+  "height": 340,
   "projection": {"type": "conicEqualArea", "parallels": [-18, -36], "rotate": [-134, 0]},
   "layer": [
     {
@@ -33,7 +39,10 @@
           "lookup": "state",
           "from": {"data": {"url": "data/states.csv"}, "key": "state", "fields": ["operators", "hectares"]}
         },
-        {"calculate": "toNumber(datum.hectares) / toNumber(datum.operators)", "as": "ha_per_operator"},
+        {
+          "calculate": "toNumber(datum.hectares) / toNumber(datum.operators)",
+          "as": "ha_per_operator"
+        },
         {
           "calculate": "datum.ha_per_operator < 1000 ? 'Under 1,000 ha' : datum.ha_per_operator < 10000 ? '1,000–10,000 ha' : datum.ha_per_operator < 50000 ? '10,000–50,000 ha' : '50,000 ha or more'",
           "as": "band"
@@ -52,19 +61,36 @@
           "legend": {
             "orient": "bottom",
             "direction": "horizontal",
+            "columns": 2,
             "titleLimit": 400,
             "symbolType": "square",
-            "symbolSize": 200,
+            "symbolSize": 180,
             "symbolStrokeColor": "#bdbdbd",
             "symbolStrokeWidth": 0.5,
-            "columnPadding": 16
+            "columnPadding": 20,
+            "rowPadding": 6
           }
         },
         "tooltip": [
           {"field": "properties.NAME", "type": "nominal", "title": "State or territory"},
-          {"field": "hectares", "type": "quantitative", "title": "Certified organic land (ha)", "format": ",.0f"},
-          {"field": "operators", "type": "quantitative", "title": "Certified operators", "format": ","},
-          {"field": "ha_per_operator", "type": "quantitative", "title": "Hectares per operator", "format": ",.0f"},
+          {
+            "field": "hectares",
+            "type": "quantitative",
+            "title": "Certified organic land (ha)",
+            "format": ",.0f"
+          },
+          {
+            "field": "operators",
+            "type": "quantitative",
+            "title": "Certified operators",
+            "format": ","
+          },
+          {
+            "field": "ha_per_operator",
+            "type": "quantitative",
+            "title": "Hectares per operator",
+            "format": ",.0f"
+          },
           {"field": "state", "type": "nominal", "title": "Reported as"}
         ]
       }
@@ -87,7 +113,13 @@
           }
         }
       ],
-      "mark": {"type": "circle", "color": "#d95f02", "opacity": 0.85, "stroke": "#ffffff", "strokeWidth": 1.5},
+      "mark": {
+        "type": "circle",
+        "color": "#08519c",
+        "opacity": 0.85,
+        "stroke": "#ffffff",
+        "strokeWidth": 1.5
+      },
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
         "latitude": {"field": "lat", "type": "quantitative"},
@@ -95,16 +127,15 @@
           "field": "operators",
           "type": "quantitative",
           "title": [
-            "Certified operators",
-            "(farms, plus businesses such as processors,",
+            "Certified operators (farms, plus processors,",
             "packers and traders certified as organic)"
           ],
-          "scale": {"domain": [0, 700], "range": [0, 3000]},
+          "scale": {"domain": [0, 700], "range": [0, 1600]},
           "legend": {
             "orient": "bottom",
             "direction": "horizontal",
             "values": [100, 300, 600],
-            "symbolFillColor": "#d95f02",
+            "symbolFillColor": "#08519c",
             "symbolStrokeColor": "#ffffff",
             "titleLimit": 400,
             "titleLineHeight": 18
@@ -112,8 +143,18 @@
         },
         "tooltip": [
           {"field": "state", "type": "nominal", "title": "State or territory"},
-          {"field": "operators", "type": "quantitative", "title": "Certified operators", "format": ","},
-          {"field": "hectares", "type": "quantitative", "title": "Certified organic land (ha)", "format": ",.0f"}
+          {
+            "field": "operators",
+            "type": "quantitative",
+            "title": "Certified operators",
+            "format": ","
+          },
+          {
+            "field": "hectares",
+            "type": "quantitative",
+            "title": "Certified organic land (ha)",
+            "format": ",.0f"
+          }
         ]
       }
     },
@@ -133,25 +174,39 @@
         },
         {"calculate": "datum.state + ': ' + datum.operators", "as": "label"}
       ],
-      "mark": {"type": "text", "dy": -34, "fontSize": 14, "fontWeight": 600},
+      "mark": {
+        "type": "text",
+        "dy": -26,
+        "fontSize": 13,
+        "fontWeight": 600,
+        "stroke": "#ffffff",
+        "strokeWidth": 3,
+        "strokeJoin": "round",
+        "color": "#ffffff"
+      },
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
         "latitude": {"field": "lat", "type": "quantitative"},
-        "text": {"field": "label"},
-        "color": {
-          "condition": {"test": "datum.state == 'NT/ACT/TAS'", "value": "#ffffff"},
-          "value": "#2b2b2b"
-        }
+        "text": {"field": "label"}
       }
     },
     {
-      "data": {
-        "values": [
-          {"lon": 149.5, "lat": -41.6, "label": "Tasmania and the ACT are reported"},
-          {"lon": 149.5, "lat": -43.1, "label": "together with the Northern Territory"}
-        ]
-      },
-      "mark": {"type": "text", "align": "left", "fontSize": 13, "color": "#5f5f5f"},
+      "data": {"url": "data/states.csv", "format": {"type": "csv", "parse": {"operators": "number"}}},
+      "transform": [
+        {
+          "lookup": "state",
+          "from": {
+            "data": {
+              "url": "data/state_points.csv",
+              "format": {"type": "csv", "parse": {"lon": "number", "lat": "number"}}
+            },
+            "key": "state",
+            "fields": ["lon", "lat"]
+          }
+        },
+        {"calculate": "datum.state + ': ' + datum.operators", "as": "label"}
+      ],
+      "mark": {"type": "text", "dy": -26, "fontSize": 13, "fontWeight": 600, "color": "#2b2b2b"},
       "encoding": {
         "longitude": {"field": "lon", "type": "quantitative"},
         "latitude": {"field": "lat", "type": "quantitative"},
@@ -170,7 +225,8 @@
       "titleFontSize": 14,
       "titleFontWeight": 400,
       "titleColor": "#5f5f5f",
-      "labelColor": "#5f5f5f"
+      "labelColor": "#5f5f5f",
+      "layout": {"bottom": {"anchor": "start", "direction": "vertical", "margin": 14}}
     },
     "text": {"font": "'Source Sans 3', sans-serif"}
   }

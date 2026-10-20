@@ -32,7 +32,7 @@
         "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
       },
       "transform": [{"filter": "datum.properties.ADM0_A3 != 'ATA'"}],
-      "mark": {"type": "geoshape", "fill": "#dcdcdc", "stroke": "#ffffff", "strokeWidth": 0.5}
+      "mark": {"type": "geoshape", "fill": "#cfcac0", "stroke": "#ffffff", "strokeWidth": 0.5}
     },
     {
       "data": {

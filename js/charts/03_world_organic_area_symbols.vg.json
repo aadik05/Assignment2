@@ -66,14 +66,14 @@
             "direction": "horizontal",
             "values": [1, 10, 50],
             "labelExpr": "datum.value + 'M ha'",
-            "symbolFillColor": "#31a354",
+            "symbolFillColor": "#b8b2a7",
             "symbolStrokeColor": "#ffffff",
             "symbolOpacity": 0.75
           }
         },
         "color": {
           "condition": {"test": "datum.code == 'AUS'", "value": "#d95f02"},
-          "value": "#31a354"
+          "value": "#b8b2a7"
         },
         "order": {"field": "organic_m", "sort": "descending"},
         "tooltip": [
