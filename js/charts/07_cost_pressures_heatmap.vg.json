@@ -1,0 +1,124 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": ["Freight is the biggest worry for processors,", "labour for farmers"],
+    "subtitle": [
+      "% of surveyed organic businesses naming each cost as a",
+      "pressure, 2026. Producers are farms (49 surveyed); processors",
+      "turn produce into food products (14 surveyed). Small samples,",
+      "so treat these as a rough guide."
+    ],
+    "anchor": "start",
+    "font": "Fraunces, serif",
+    "fontSize": 22,
+    "fontWeight": 600,
+    "color": "#2b2b2b",
+    "subtitleFont": "'Source Sans 3', sans-serif",
+    "subtitleFontSize": 16,
+    "subtitleFontWeight": 400,
+    "subtitleColor": "#5f5f5f",
+    "subtitlePadding": 6,
+    "offset": 16,
+    "lineHeight": 28,
+    "subtitleLineHeight": 20
+  },
+  "width": "container",
+  "height": 330,
+  "data": {
+    "url": "data/costs.csv",
+    "format": {"type": "csv", "parse": {"percent": "number"}}
+  },
+  "transform": [
+    {"joinaggregate": [{"op": "mean", "field": "percent", "as": "avg_percent"}], "groupby": ["pressure"]},
+    {
+      "calculate": "datum.percent < 20 ? 'Under 20%' : datum.percent < 40 ? '20–39%' : datum.percent < 60 ? '40–59%' : datum.percent < 80 ? '60–79%' : '80% or more'",
+      "as": "band"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "group",
+      "type": "nominal",
+      "title": null,
+      "sort": ["Producers", "Processors"],
+      "axis": {"orient": "top", "labelAngle": 0, "labelFontSize": 15, "labelColor": "#2b2b2b", "labelFontWeight": 600, "domain": false, "ticks": false, "labelPadding": 8}
+    },
+    "y": {
+      "field": "pressure",
+      "type": "nominal",
+      "title": null,
+      "sort": {"field": "avg_percent", "op": "max", "order": "descending"},
+      "axis": {"labelFontSize": 15, "labelColor": "#2b2b2b", "domain": false, "ticks": false, "labelPadding": 10, "labelLimit": 220}
+    }
+  },
+  "layer": [
+    {
+      "mark": {"type": "rect", "stroke": "#ffffff", "strokeWidth": 3},
+      "encoding": {
+        "color": {
+          "field": "band",
+          "type": "ordinal",
+          "title": "% naming the cost",
+          "scale": {
+            "domain": ["Under 20%", "20–39%", "40–59%", "60–79%", "80% or more"],
+            "range": ["#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c"]
+          },
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "titleLimit": 300,
+            "symbolType": "square",
+            "symbolSize": 180,
+            "symbolStrokeColor": "#bdbdbd",
+            "symbolStrokeWidth": 0.5,
+            "columns": 3,
+            "columnPadding": 14,
+            "rowPadding": 6
+          }
+        },
+        "tooltip": [
+          {"field": "pressure", "type": "nominal", "title": "Cost"},
+          {"field": "group", "type": "nominal", "title": "Group"},
+          {"field": "percent", "type": "quantitative", "title": "% naming it"}
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "window": [{"op": "rank", "as": "rank_in_group"}],
+          "groupby": ["group"],
+          "sort": [{"field": "percent", "order": "descending"}]
+        },
+        {"filter": "datum.rank_in_group == 1"}
+      ],
+      "mark": {"type": "rect", "fill": null, "stroke": "#d95f02", "strokeWidth": 3}
+    },
+    {
+      "mark": {"type": "text", "fontSize": 16, "fontWeight": 600},
+      "encoding": {
+        "text": {"field": "percent", "type": "quantitative", "format": "d"},
+        "color": {
+          "condition": {"test": "datum.percent >= 60", "value": "#ffffff"},
+          "value": "#2b2b2b"
+        }
+      }
+    }
+  ],
+  "config": {
+    "background": "transparent",
+    "font": "'Source Sans 3', sans-serif",
+    "view": {"stroke": null},
+    "axis": {"labelFont": "'Source Sans 3', sans-serif", "titleFont": "'Source Sans 3', sans-serif", "grid": false},
+    "legend": {
+      "labelFont": "'Source Sans 3', sans-serif",
+      "titleFont": "'Source Sans 3', sans-serif",
+      "labelFontSize": 14,
+      "titleFontSize": 14,
+      "titleFontWeight": 400,
+      "titleColor": "#5f5f5f",
+      "labelColor": "#5f5f5f"
+    },
+    "text": {"font": "'Source Sans 3', sans-serif"}
+  }
+}
