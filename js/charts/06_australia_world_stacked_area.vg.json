@@ -1,0 +1,135 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": ["The world's organic land grew steadily,", "Australia's grew in two leaps"],
+    "subtitle": [
+      "Certified organic agricultural land, million hectares, 2004–2023.",
+      "White labels show Australia's share of the world total."
+    ],
+    "anchor": "start",
+    "font": "Fraunces, serif",
+    "fontSize": 22,
+    "fontWeight": 600,
+    "color": "#2b2b2b",
+    "subtitleFont": "'Source Sans 3', sans-serif",
+    "subtitleFontSize": 16,
+    "subtitleFontWeight": 400,
+    "subtitleColor": "#5f5f5f",
+    "subtitlePadding": 6,
+    "offset": 16,
+    "lineHeight": 28,
+    "subtitleLineHeight": 20
+  },
+  "width": "container",
+  "height": 300,
+  "data": {
+    "url": "data/organic_area.csv",
+    "format": {"type": "csv", "parse": {"year": "number", "organic_ha": "number"}}
+  },
+  "transform": [
+    {"filter": "datum.code == 'AUS' || datum.code == 'OWID_WRL'"},
+    {"calculate": "datum.code == 'OWID_WRL' ? datum.organic_ha : 0", "as": "world_part"},
+    {"joinaggregate": [{"op": "sum", "field": "world_part", "as": "world_ha"}], "groupby": ["year"]},
+    {"filter": "datum.code == 'AUS'"},
+    {"calculate": "datum.organic_ha / datum.world_ha * 100", "as": "aus_share"},
+    {"calculate": "datum.organic_ha / 1000000", "as": "Australia"},
+    {"calculate": "(datum.world_ha - datum.organic_ha) / 1000000", "as": "Rest of the world"},
+    {"fold": ["Australia", "Rest of the world"], "as": ["region", "million_ha"]},
+    {"calculate": "datum.region == 'Australia' ? 1 : 2", "as": "stack_order"}
+  ],
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "quantitative",
+      "title": "Year",
+      "scale": {"domain": [2004, 2023]},
+      "axis": {
+        "format": "d",
+        "values": [2004, 2008, 2012, 2016, 2020, 2023],
+        "grid": false,
+        "labelFlush": false,
+        "titlePadding": 10
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {"type": "area", "stroke": "#ffffff", "strokeWidth": 1},
+      "encoding": {
+        "y": {
+          "field": "million_ha",
+          "type": "quantitative",
+          "stack": "zero",
+          "title": "Million hectares",
+          "scale": {"domain": [0, 100]},
+          "axis": {"tickCount": 5}
+        },
+        "color": {
+          "field": "region",
+          "type": "nominal",
+          "scale": {"domain": ["Australia", "Rest of the world"], "range": ["#d95f02", "#b8b2a7"]},
+          "legend": null
+        },
+        "order": {"field": "stack_order"},
+        "tooltip": [
+          {"field": "year", "type": "quantitative", "title": "Year", "format": "d"},
+          {"field": "region", "type": "nominal", "title": "Where"},
+          {"field": "million_ha", "type": "quantitative", "title": "Organic land (million ha)", "format": ".1f"},
+          {"field": "aus_share", "type": "quantitative", "title": "Australia's share of world (%)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "transform": [
+        {"filter": "datum.region == 'Australia' && (datum.year == 2004 || datum.year == 2013 || datum.year == 2023)"},
+        {"calculate": "datum.million_ha / 2", "as": "label_y"},
+        {"calculate": "format(datum.aus_share, '.0f') + '%'", "as": "label"}
+      ],
+      "mark": {
+        "type": "text",
+        "align": {"expr": "datum.year == 2004 ? 'left' : datum.year == 2023 ? 'right' : 'center'"},
+        "dx": {"expr": "datum.year == 2004 ? 6 : datum.year == 2023 ? -6 : 0"},
+        "fontSize": 15,
+        "fontWeight": 600,
+        "color": "#ffffff"
+      },
+      "encoding": {
+        "y": {"field": "label_y", "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"year": 2019.5, "y": 18, "label": "Australia", "colour": "#ffffff"},
+          {"year": 2019.5, "y": 56, "label": "Rest of the world", "colour": "#2b2b2b"}
+        ]
+      },
+      "mark": {"type": "text", "fontSize": 15, "fontWeight": 600},
+      "encoding": {
+        "x": {"field": "year", "type": "quantitative"},
+        "y": {"field": "y", "type": "quantitative"},
+        "text": {"field": "label"},
+        "color": {"field": "colour", "type": "nominal", "scale": null}
+      }
+    }
+  ],
+  "config": {
+    "background": "transparent",
+    "font": "'Source Sans 3', sans-serif",
+    "view": {"stroke": null},
+    "axis": {
+      "labelFont": "'Source Sans 3', sans-serif",
+      "titleFont": "'Source Sans 3', sans-serif",
+      "labelFontSize": 14,
+      "titleFontSize": 14,
+      "titleFontWeight": 400,
+      "titleColor": "#5f5f5f",
+      "labelColor": "#5f5f5f",
+      "gridColor": "#e6e6e6",
+      "domainColor": "#999999",
+      "tickColor": "#999999"
+    },
+    "text": {"font": "'Source Sans 3', sans-serif"}
+  }
+}
