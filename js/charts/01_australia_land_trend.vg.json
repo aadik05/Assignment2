@@ -1,5 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "CHART 1 - Line chart with a light area (basic idiom). Shows how Australia's certified organic land changed from 2004 to 2023. Why a line: year is an ordered key and the task is a trend, and position on a common scale (x = year, y = million hectares) is the most accurate channel. The y axis starts at 0 so growth is not exaggerated. Data: FAO via Our World in Data (organic_area.csv). Transforms: keep only Australia's rows, then divide hectares by 1,000,000 so the axis reads in millions. The x and y encodings at the top are shared by every layer below.",
   "title": {
     "text": "Australia's certified organic farmland has grown more than fourfold",
     "subtitle": "Certified organic agricultural land in Australia, million hectares, 2004–2023",
@@ -53,12 +54,15 @@
   },
   "layer": [
     {
+      "description": "Layer 1: a very faint orange area under the line (opacity 0.1) to give a sense of 'amount of land' without adding much ink.",
       "mark": {"type": "area", "color": "#d95f02", "opacity": 0.1}
     },
     {
+      "description": "Layer 2: the orange trend line itself (orange = Australia across the whole page).",
       "mark": {"type": "line", "color": "#d95f02", "strokeWidth": 3}
     },
     {
+      "description": "Layer 3: a dot for each year; hovering over a dot shows a tooltip with the exact value (details on demand).",
       "mark": {"type": "point", "color": "#d95f02", "filled": true, "opacity": 1, "size": 45},
       "encoding": {
         "tooltip": [
@@ -68,6 +72,7 @@
       }
     },
     {
+      "description": "Layer 4: direct labels for the first and last values (12.1M ha and 53.0M ha). The filter keeps only 2004 and 2023; the align expression puts the 2004 label to the right of its point and the 2023 label to the left, so both stay inside the chart.",
       "transform": [
         {"filter": "datum.year == 2004 || datum.year == 2023"},
         {"calculate": "format(datum.organic_m, '.1f') + 'M ha'", "as": "label"}
@@ -85,6 +90,7 @@
       }
     },
     {
+      "description": "Layer 5: grey text annotations that explain the jump in 2013-2017 and the flat period. Their positions are typed in (inline 'values'), but the text describes what the data shows.",
       "data": {
         "values": [
           {"year": 2014.6, "organic_m": 32, "label": "2013–2017: organic land"},

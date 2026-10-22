@@ -1,0 +1,231 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "CHART 8 - Origin-destination flow map (advanced idiom: map). Curved lines from Australia to 13 export destinations; line WIDTH shows tonnes (FY2024/25, Department of Agriculture data in the Australian Organic Market Report). Projection: Equal Earth rotated -150 degrees so the map is centred on the Pacific and the US flow crosses the ocean instead of the edge of the map. Every curve bends the same way to reduce overlaps (Jenny et al. 2018 design principles for flow maps). Australia's origin is its centre point (133.78, -25.27).",
+  "title": {
+    "text": "Two-thirds of Australia's organic exports go to the United States",
+    "subtitle": [
+      "Certified organic exports by destination, tonnes, 2024/25. Line width shows tonnes.",
+      "The 13 countries shown took 39,913 of the 42,833 tonnes exported; the rest",
+      "went to other countries in smaller amounts."
+    ],
+    "anchor": "start",
+    "font": "Fraunces, serif",
+    "fontSize": 22,
+    "fontWeight": 600,
+    "color": "#2b2b2b",
+    "subtitleFont": "'Source Sans 3', sans-serif",
+    "subtitleFontSize": 16,
+    "subtitleFontWeight": 400,
+    "subtitleColor": "#5f5f5f",
+    "subtitlePadding": 6,
+    "offset": 16,
+    "subtitleLineHeight": 20
+  },
+  "width": "container",
+  "height": 480,
+  "projection": {"type": "equalEarth", "rotate": [-150, 0, 0]},
+  "layer": [
+    {
+      "description": "Layer 1: grey base map of every country except Antarctica.",
+      "data": {
+        "url": "data/ne_110m_admin_0_countries.topojson",
+        "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+      },
+      "transform": [{"filter": "datum.properties.ADM0_A3 != 'ATA'"}],
+      "mark": {"type": "geoshape", "fill": "#e3e1dc", "stroke": "#ffffff", "strokeWidth": 0.5}
+    },
+    {
+      "description": "Layer 2: Australia highlighted with a pale orange fill and orange outline, as the origin of all flows.",
+      "data": {
+        "url": "data/ne_110m_admin_0_countries.topojson",
+        "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+      },
+      "transform": [{"filter": "datum.properties.ADM0_A3 == 'AUS'"}],
+      "mark": {"type": "geoshape", "fill": "#f6d8c0", "stroke": "#d95f02", "strokeWidth": 1}
+    },
+    {
+      "description": "Layer 3: the flow lines. Vega-Lite has no curved-line mark, so each curve is built from 21 points. Steps: (1) if a destination's longitude is below -30 (the US), add 360 so its path goes east across the Pacific; (2) the bend point = the midpoint pushed sideways by 20% of the line's length, perpendicular to it; (3) sequence(0, 21) + flatten makes 21 rows per destination and t = step / 20 runs from 0 to 1; (4) the quadratic Bezier formula B(t) = (1-t)^2 * start + 2(1-t)t * bend + t^2 * end gives each point's lon and lat. 'detail' draws one line per destination and 'order' joins its points in order of t. Width scale: 0-29,000 t maps to 1-16 px (the 1 px minimum keeps the smallest flows visible).",
+      "data": {
+        "url": "data/export_destinations.csv",
+        "format": {"type": "csv", "parse": {"tonnes": "number", "lon": "number", "lat": "number"}}
+      },
+      "transform": [
+        {"calculate": "datum.lon < -30 ? datum.lon + 360 : datum.lon", "as": "lon_end"},
+        {"calculate": "(133.78 + datum.lon_end) / 2 - 0.2 * (datum.lat + 25.27)", "as": "bend_lon"},
+        {"calculate": "(-25.27 + datum.lat) / 2 + 0.2 * (datum.lon_end - 133.78)", "as": "bend_lat"},
+        {"calculate": "sequence(0, 21)", "as": "step"},
+        {"flatten": ["step"]},
+        {"calculate": "datum.step / 20", "as": "t"},
+        {
+          "calculate": "pow(1 - datum.t, 2) * 133.78 + 2 * (1 - datum.t) * datum.t * datum.bend_lon + pow(datum.t, 2) * datum.lon_end",
+          "as": "path_lon"
+        },
+        {
+          "calculate": "pow(1 - datum.t, 2) * -25.27 + 2 * (1 - datum.t) * datum.t * datum.bend_lat + pow(datum.t, 2) * datum.lat",
+          "as": "path_lat"
+        },
+        {"calculate": "datum.tonnes / 42833 * 100", "as": "share"}
+      ],
+      "mark": {"type": "line", "color": "#d95f02", "opacity": 0.8, "strokeCap": "round", "strokeJoin": "round"},
+      "encoding": {
+        "longitude": {"field": "path_lon", "type": "quantitative"},
+        "latitude": {"field": "path_lat", "type": "quantitative"},
+        "detail": {"field": "destination", "type": "nominal"},
+        "order": {"field": "t", "type": "quantitative"},
+        "size": {
+          "field": "tonnes",
+          "type": "quantitative",
+          "title": "Tonnes exported",
+          "scale": {"domain": [0, 29000], "range": [1, 16]},
+          "legend": null
+        },
+        "tooltip": [
+          {"field": "destination", "type": "nominal", "title": "Destination"},
+          {"field": "tonnes", "type": "quantitative", "title": "Tonnes", "format": ","},
+          {"field": "share", "type": "quantitative", "title": "% of all organic exports", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "description": "Layer 4: a small orange dot at each destination (tooltip shows tonnes).",
+      "data": {
+        "url": "data/export_destinations.csv",
+        "format": {"type": "csv", "parse": {"tonnes": "number", "lon": "number", "lat": "number"}}
+      },
+      "mark": {"type": "circle", "color": "#d95f02", "size": 40, "opacity": 1, "stroke": "#ffffff", "strokeWidth": 1},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "tooltip": [
+          {"field": "destination", "type": "nominal", "title": "Destination"},
+          {"field": "tonnes", "type": "quantitative", "title": "Tonnes", "format": ","}
+        ]
+      }
+    },
+    {
+      "description": "Layer 5: name and tonnes for the destinations with at least 1,300 t (US, NZ, China, Singapore), so the map is not cluttered.",
+      "data": {
+        "url": "data/export_destinations.csv",
+        "format": {"type": "csv", "parse": {"tonnes": "number", "lon": "number", "lat": "number"}}
+      },
+      "transform": [
+        {"filter": "datum.tonnes >= 1300"},
+        {"calculate": "datum.destination + ': ' + format(datum.tonnes, ',') + ' t'", "as": "label"}
+      ],
+      "mark": {"type": "text", "align": "left", "dx": 8, "dy": -8, "fontSize": 14, "fontWeight": 600, "color": "#2b2b2b"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    },
+    {
+      "description": "Layer 6: the US annotation, two lines. Line 1 is calculated (US tonnes / 42,833 total = 68%); line 2 (US beef alone: 26,483 t) is typed in from the report because it is not in the data file. fold makes one row per line and dy places them one under the other.",
+      "data": {
+        "url": "data/export_destinations.csv",
+        "format": {"type": "csv", "parse": {"tonnes": "number", "lon": "number", "lat": "number"}}
+      },
+      "transform": [
+        {"filter": "datum.destination == 'United States'"},
+        {"calculate": "format(datum.tonnes / 42833 * 100, '.0f') + '% of all organic exports'", "as": "line1"},
+        {"calculate": "'US beef alone: 26,483 t'", "as": "line2"},
+        {"fold": ["line1", "line2"], "as": ["which", "label"]},
+        {"calculate": "datum.which == 'line1' ? 10 : 28", "as": "dy"}
+      ],
+      "mark": {"type": "text", "align": "left", "dx": 8, "dy": {"expr": "datum.dy"}, "fontSize": 14, "color": "#d95f02"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    },
+    {
+      "description": "Layer 7: a larger orange dot marking Australia, the origin.",
+      "data": {"values": [{"lon": 133.78, "lat": -25.27}]},
+      "mark": {"type": "circle", "color": "#d95f02", "size": 90, "opacity": 1, "stroke": "#ffffff", "strokeWidth": 1.5},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"}
+      }
+    },
+    {
+      "description": "Layer 8: label 'Australia: 42,833 t exported', placed in the Indian Ocean west of Perth.",
+      "data": {"values": [{"lon": 111, "lat": -32, "label": "Australia: 42,833 t exported"}]},
+      "mark": {"type": "text", "align": "right", "fontSize": 15, "fontWeight": 600, "color": "#d95f02"},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    },
+    {
+      "description": "Layer 9: one combined label for the five small European flows. 'aggregate' adds up their tonnes from the data (847 t), instead of labelling five crowded dots.",
+      "data": {
+        "url": "data/export_destinations.csv",
+        "format": {"type": "csv", "parse": {"tonnes": "number"}}
+      },
+      "transform": [
+        {"filter": "indexof(['United Kingdom', 'Sweden', 'France', 'Finland', 'Netherlands'], datum.destination) >= 0"},
+        {"aggregate": [{"op": "sum", "field": "tonnes", "as": "europe_t"}, {"op": "count", "as": "n"}]},
+        {"calculate": "datum.n + ' European countries: ' + format(datum.europe_t, ',') + ' t combined'", "as": "label"}
+      ],
+      "mark": {"type": "text", "fontSize": 14, "fontWeight": 600, "color": "#2b2b2b"},
+      "encoding": {
+        "longitude": {"datum": 10},
+        "latitude": {"datum": 72},
+        "text": {"field": "label"}
+      }
+    },
+    {
+      "description": "Layer 10: hand-made width key. Three short map lines (1,000 / 10,000 / 25,000 t) in the Southern Ocean; they use the same 'size' scale as the flows because they encode the same field name (tonnes). Vega's automatic legend can't show line widths well.",
+      "data": {"values": [{"tonnes": 1000, "lat": -45.5}, {"tonnes": 10000, "lat": -52}, {"tonnes": 25000, "lat": -58.5}]},
+      "transform": [
+        {"calculate": "[20, 34]", "as": "key_lon"},
+        {"flatten": ["key_lon"]}
+      ],
+      "mark": {"type": "line", "color": "#d95f02", "opacity": 0.8, "strokeCap": "butt"},
+      "encoding": {
+        "longitude": {"field": "key_lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "detail": {"field": "tonnes", "type": "nominal"},
+        "size": {"field": "tonnes", "type": "quantitative"}
+      }
+    },
+    {
+      "description": "Layer 11: the tonnes labels next to the three key lines.",
+      "data": {"values": [{"tonnes": 1000, "lat": -45.5}, {"tonnes": 10000, "lat": -52}, {"tonnes": 25000, "lat": -58.5}]},
+      "transform": [{"calculate": "format(datum.tonnes, ',') + ' t'", "as": "label"}],
+      "mark": {"type": "text", "align": "left", "baseline": "middle", "dx": 8, "fontSize": 14, "color": "#5f5f5f"},
+      "encoding": {
+        "longitude": {"datum": 34},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    },
+    {
+      "description": "Layer 12: the key's title, 'Line width: tonnes exported'.",
+      "data": {"values": [{"label": "Line width: tonnes exported"}]},
+      "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 14, "color": "#5f5f5f"},
+      "encoding": {
+        "longitude": {"datum": 20},
+        "latitude": {"datum": -40.5},
+        "text": {"field": "label"}
+      }
+    }
+  ],
+  "config": {
+    "background": "transparent",
+    "font": "'Source Sans 3', sans-serif",
+    "view": {"stroke": null},
+    "legend": {
+      "labelFont": "'Source Sans 3', sans-serif",
+      "titleFont": "'Source Sans 3', sans-serif",
+      "labelFontSize": 14,
+      "titleFontSize": 14,
+      "titleFontWeight": 400,
+      "titleColor": "#5f5f5f",
+      "labelColor": "#5f5f5f"
+    },
+    "text": {"font": "'Source Sans 3', sans-serif"}
+  }
+}

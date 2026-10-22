@@ -1,5 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "CHART 6 - Stacked area chart (basic idiom). Shows the world's certified organic land split into Australia and the rest of the world, 2004-2023. Why stacked: it shows the world total and Australia's part of it at the same time. Australia sits on the zero baseline, where its size is easiest to judge. Transforms: keep Australia and the World rows; joinaggregate (grouped by year) copies each year's world total onto Australia's row; calculate Australia's share and the rest of the world (world minus Australia) in million ha; fold turns the two columns into two rows per year, which stacking needs; stack_order makes Australia the bottom layer.",
   "title": {
     "text": ["The world's organic land grew steadily,", "Australia's grew in two leaps"],
     "subtitle": [
@@ -54,6 +55,7 @@
   },
   "layer": [
     {
+      "description": "Layer 1: the two stacked areas. Orange = Australia, warm grey = rest of the world (context). The tooltip shows each region's hectares and Australia's share for that year.",
       "mark": {"type": "area", "stroke": "#ffffff", "strokeWidth": 1},
       "encoding": {
         "y": {
@@ -80,6 +82,7 @@
       }
     },
     {
+      "description": "Layer 2: white share labels (55%, 27%, 54%) for 2004, 2013 and 2023, placed halfway up the orange band; the align/dx expressions keep the first and last labels inside the chart.",
       "transform": [
         {"filter": "datum.region == 'Australia' && (datum.year == 2004 || datum.year == 2013 || datum.year == 2023)"},
         {"calculate": "datum.million_ha / 2", "as": "label_y"},
@@ -99,6 +102,7 @@
       }
     },
     {
+      "description": "Layer 3: direct labels 'Australia' and 'Rest of the world' instead of a legend, so readers don't have to look back and forth (legend = null in layer 1).",
       "data": {
         "values": [
           {"year": 2019.5, "y": 18, "label": "Australia", "colour": "#ffffff"},

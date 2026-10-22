@@ -1,4 +1,7 @@
-/* ---------- Colours used across the whole page ---------- */
+/* ---------- Colours used across the whole page ----------
+   CSS variables: each colour is defined once here and used with var(--name) below.
+   The same hex values are used inside the charts, so the page and the charts share one colour system:
+   green = organic land, orange = Australia / key fact, blue = people and money, grey = context. */
 :root {
   --bg: #fbfaf7;          /* warm off-white page */
   --card: #ffffff;        /* white panels behind charts */
@@ -13,7 +16,9 @@
 }
 
 /* ---------- Page ---------- */
-* { box-sizing: border-box; }
+* { box-sizing: border-box; }   /* widths include padding and borders, which makes layout maths predictable */
+/* Body text: Source Sans 3 (a sans serif with a large x-height, easy to read on screen),
+   18px with generous line spacing (1.6) for readability. */
 body {
   margin: 0;
   background: var(--bg);
@@ -24,11 +29,13 @@ body {
 }
 .page {
   max-width: 1100px;      /* fits a small laptop without sideways scrolling */
-  margin: 0 auto;
-  padding: 0 32px 48px;
+  margin: 0 auto;         /* "auto" left and right margins centre the page */
+  padding: 0 32px 48px;   /* top, sides, bottom */
 }
 
-/* ---------- Header ---------- */
+/* ---------- Header ----------
+   A pale green band across the full width; its content (.hero-inner) is limited to the same
+   1100px width as the rest of the page, so everything lines up on the same left and right edges. */
 .hero {
   background: var(--green-tint);
   border-bottom: 1px solid var(--line);
@@ -40,7 +47,7 @@ body {
 /* Title and intro on the left, picture on the right */
 .hero-top {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
+  grid-template-columns: minmax(0, 1fr) 280px;   /* text takes the remaining width, picture fixed at 280px */
   column-gap: 48px;
   align-items: center;
 }
@@ -51,6 +58,7 @@ body {
   border-radius: 12px;
   box-shadow: 0 0 0 1px var(--line);   /* same thin outline as the chart panels */
 }
+/* Small uppercase line above the title ("Organic farming in Australia") */
 .eyebrow {
   font-size: 14px;
   font-weight: 600;
@@ -59,6 +67,8 @@ body {
   color: var(--green);
   margin: 0 0 12px;
 }
+/* Main title: Fraunces, a serif display face with a classic, earthy feel that suits farming.
+   Largest and darkest text on the page, so it is read first (visual hierarchy). */
 h1 {
   font-family: "Fraunces", serif;
   font-weight: 600;
@@ -69,10 +79,10 @@ h1 {
 .intro { font-size: 22px; max-width: 62ch; margin: 0 0 12px; }
 .byline { font-size: 15px; color: var(--muted); margin: 0; }
 
-/* Key numbers under the title */
+/* Key numbers under the title: four equal cards in a row */
 .stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr);   /* 4 columns of equal width ("1fr" = one share of the space) */
   gap: 16px;
   margin-top: 36px;
 }
@@ -92,7 +102,8 @@ h1 {
 .stat-label { font-size: 15px; color: var(--muted); line-height: 1.4; }
 
 /* ---------- Sections ---------- */
-section { margin-top: 88px; }
+section { margin-top: 88px; }   /* plenty of white space between the four parts of the story */
+/* Small orange "PART 1" label above each section heading */
 .kicker {
   display: inline-block;
   font-size: 14px;
@@ -111,24 +122,30 @@ h2 {
   padding-bottom: 12px;
   border-bottom: 2px solid var(--line);
 }
-p { max-width: 65ch; margin: 0 0 16px; }   /* comfortable line length */
-.lead { font-size: 20px; }
-.note { font-size: 15px; color: var(--muted); }
+p { max-width: 65ch; margin: 0 0 16px; }   /* comfortable line length: about 60-65 characters ("ch") per line */
+.lead { font-size: 20px; }                 /* slightly larger opening paragraph of a section */
+.note { font-size: 15px; color: var(--muted); }   /* small grey notes about data limitations */
 
-/* ---------- 12-column grid ---------- */
+/* ---------- 12-column grid ----------
+   Each .row is split into 12 equal columns. .col-4 takes 4 of them (a third), .col-8 two thirds,
+   .col-12 the full width. Using one grid for the whole page keeps edges aligned (sight lines). */
 .row {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   column-gap: 32px;
   margin: 32px 0;
-  align-items: center;
+  align-items: center;    /* text beside a chart is centred vertically against it */
 }
 .col-4  { grid-column: span 4; }
 .col-6  { grid-column: span 6; }
 .col-8  { grid-column: span 8; }
 .col-12 { grid-column: span 12; }
 
-/* White panel behind each chart: separates figure from ground */
+/* White panel behind each chart: separates figure from ground.
+   Why a transparent border instead of padding: charts use "width": "container", and Vega-Lite
+   measures the box including its padding, so with padding the charts were 24px too wide and
+   overflowed. A border is not counted, so it gives the same inner spacing without overflow.
+   The visible outline is drawn with box-shadow instead. */
 .chart {
   width: 100%;
   background: var(--card);
@@ -137,7 +154,8 @@ p { max-width: 65ch; margin: 0 0 16px; }   /* comfortable line length */
   border-radius: 12px;
 }
 
-/* Year slider created by Vega-Lite */
+/* Year slider created by Vega-Lite (chart 2): Vega-Lite puts it inside an element with the class
+   "vega-bind", so these rules restyle it to match the page fonts and the orange accent. */
 .vega-bind {
   font-family: "Source Sans 3", sans-serif;
   font-size: 15px;
@@ -146,7 +164,8 @@ p { max-width: 65ch; margin: 0 0 16px; }   /* comfortable line length */
 }
 .vega-bind input[type="range"] { accent-color: var(--accent); width: 260px; vertical-align: middle; }
 
-/* ---------- Footer ---------- */
+/* ---------- Footer ----------
+   Metadata: author, date, data sources, map and image credits, AI acknowledgement. */
 footer {
   margin-top: 96px;
   padding-top: 24px;
@@ -158,7 +177,9 @@ footer h3 { font-family: "Fraunces", serif; color: var(--ink); font-size: 20px; 
 footer p { max-width: none; }
 footer a { color: var(--green); }
 
-/* ---------- Narrower screens: stack the columns ---------- */
+/* ---------- Narrower screens: stack the columns ----------
+   A media query: these rules only apply when the window is 860px wide or less.
+   Columns that sat side by side are stacked full width, so nothing needs sideways scrolling. */
 @media (max-width: 860px) {
   .stats { grid-template-columns: repeat(2, 1fr); }
   .hero-top { grid-template-columns: 1fr; row-gap: 24px; }
@@ -167,29 +188,34 @@ footer a { color: var(--green); }
   h1 { font-size: 40px; }
 }
 
-/* ---------- Two charts side by side, text above each ---------- */
+/* ---------- Two charts side by side, text above each ----------
+   Used for the waffle (chart 5) and the state map (chart 4). A 2 x 2 grid:
+   row 1 = the two texts (.t1, .t2), row 2 = the two chart panels (.c1, .c2). */
 .pair {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);  /* two equal columns */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);  /* two equal columns; minmax(0, ...) lets them shrink instead of being pushed wider by their content */
   column-gap: 32px;
   row-gap: 16px;
   margin: 32px 0;
   align-items: stretch;           /* both chart panels end up the same height */
 }
 .pair .pair-text { max-width: none; margin: 0; align-self: start; }
-.pair .chart { height: 100%; }
+.pair .chart { height: 100%; }   /* each panel fills its grid cell, so both panels are the same height */
+/* Place each piece in its cell: column number, row number */
 .pair .t1 { grid-column: 1; grid-row: 1; }
 .pair .t2 { grid-column: 2; grid-row: 1; }
 .pair .c1 { grid-column: 1; grid-row: 2; }
 .pair .c2 { grid-column: 2; grid-row: 2; }
+/* Big orange number at the start of a text block (e.g. "54%"): a hook that matches the header stat cards */
 .stat-inline {
-  display: block;
+  display: block;   /* puts the number on its own line above the text */
   font-family: "Fraunces", serif;
   font-size: 30px;
   font-weight: 600;
   line-height: 1.2;
   color: var(--accent);
 }
+/* On narrow screens: one column, in the order text 1, waffle, text 2, state map */
 @media (max-width: 860px) {
   .pair { grid-template-columns: 1fr; }
   .pair .t1 { grid-column: 1; grid-row: 1; }

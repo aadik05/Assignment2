@@ -1,5 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "CHART 2 - Choropleth map with a year slider (advanced idiom: map). Shows the share of each country's farmland that is certified organic. Why a choropleth: the value belongs to an area (a country) and it is a standardised rate (organic land divided by all farmland), not a raw total, so big countries do not look dark just because they are big. Colour lightness shows low to high using ColorBrewer Greens in 6 classes. Projection: Equal Earth, which is equal-area, so country sizes are not distorted. The 'selected_year' parameter is bound to a range slider; every layer that filters on it redraws when the slider moves.",
   "title": {
     "text": "15% of Australia's farmland is now certified organic, up from 3% in 2004",
     "subtitle": "Share of each country's farmland that is certified organic. Drag the slider to move through the years. Grey: no data.",
@@ -27,6 +28,7 @@
   "projection": {"type": "equalEarth"},
   "layer": [
     {
+      "description": "Layer 1: every country (except Antarctica, 'ATA') in warm grey. Countries with no data stay this grey because no coloured layer is drawn on top of them.",
       "data": {
         "url": "data/ne_110m_admin_0_countries.topojson",
         "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
@@ -35,6 +37,7 @@
       "mark": {"type": "geoshape", "fill": "#cfcac0", "stroke": "#ffffff", "strokeWidth": 0.5}
     },
     {
+      "description": "Layer 2: the coloured countries. It starts from the CSV (one row per country per year): filter to the year chosen on the slider, drop the Our World in Data aggregates (their codes are longer than 3 letters) and missing values, calculate share = organic / farmland x 100, turn the share into a class label ('band'), then 'lookup' joins each row to its country shape using the 3-letter code ADM0_A3 (ISO_A3 is -99 for France and Norway, so it can't be used). 'shape' with type geojson tells Vega-Lite to draw that joined shape.",
       "data": {
         "url": "data/organic_area.csv",
         "format": {
@@ -94,6 +97,7 @@
       }
     },
     {
+      "description": "Layer 3: Australia's outline in orange (no fill), so Australia stands out on every year of the slider.",
       "data": {
         "url": "data/ne_110m_admin_0_countries.topojson",
         "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
@@ -102,6 +106,7 @@
       "mark": {"type": "geoshape", "fill": null, "fillOpacity": 0, "stroke": "#d95f02", "strokeWidth": 2.5}
     },
     {
+      "description": "Layer 4: a dynamic label under Australia that recalculates Australia's share for the selected year, placed at a fixed longitude and latitude in the Southern Ocean.",
       "data": {
         "url": "data/organic_area.csv",
         "format": {

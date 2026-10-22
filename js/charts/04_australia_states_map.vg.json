@@ -1,5 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "CHART 4 - Bivariate map: choropleth plus proportional symbols (advanced idiom: map). Colour of each state = certified organic hectares PER certified operator (a standardised ratio, so state size doesn't mislead). Blue circles = number of certified operators (a raw count, so it goes on symbols). Two attributes, two channels: colour lightness on area marks and size on point marks. Projection: conic equal-area, because Australia is a landscape-shaped area at mid latitudes; the standard parallels (-18 and -36) sit inside Australia's latitude range and rotate -134 centres the map on 134 degrees east. State shapes: Natural Earth admin-1, filtered to Australia and simplified in mapshaper.",
   "title": {
     "text": ["The land is in the north and centre,", "the operators in the south-east"],
     "subtitle": [
@@ -26,6 +27,7 @@
   "projection": {"type": "conicEqualArea", "parallels": [-18, -36], "rotate": [-134, 0]},
   "layer": [
     {
+      "description": "Layer 1: the coloured states. The source reports NT, ACT and Tasmania together, so a calculate step gives all three shapes the key 'NT/ACT/TAS'; 'lookup' then joins operators and hectares from states.csv; toNumber() is needed because this lookup's CSV is not parsed; ha_per_operator = hectares / operators, which is turned into 4 classes for the ColorBrewer Greens scale.",
       "data": {
         "url": "data/australian_states.topojson",
         "format": {"type": "topojson", "feature": "australian_states"}
@@ -96,6 +98,7 @@
       }
     },
     {
+      "description": "Layer 2: blue circles sized by the number of operators, placed at each state's interior point (state_points.csv, made in mapshaper). Blue means 'people and money' in the page's colour system and stays distinct from green for colour-blind readers.",
       "data": {
         "url": "data/states.csv",
         "format": {"type": "csv", "parse": {"operators": "number", "hectares": "number"}}
@@ -159,6 +162,7 @@
       }
     },
     {
+      "description": "Layer 3: white 'halo' copy of each label, drawn with a thick white stroke, so the dark label on top stays readable on any shade of green.",
       "data": {"url": "data/states.csv", "format": {"type": "csv", "parse": {"operators": "number"}}},
       "transform": [
         {
@@ -191,6 +195,7 @@
       }
     },
     {
+      "description": "Layer 4: the dark label text ('VIC: 671' etc.) drawn on top of the halo.",
       "data": {"url": "data/states.csv", "format": {"type": "csv", "parse": {"operators": "number"}}},
       "transform": [
         {

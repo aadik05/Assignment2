@@ -1,5 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "CHART 7 - Heat map (advanced idiom). Rows = cost types, columns = producers (farms) and processors; cell colour = % of surveyed businesses naming that cost as a pressure. Why a heat map: two categorical keys and one value (Kirk). Colour gives the overall pattern; the number in each cell gives the exact value. ColorBrewer Blues in 5 classes of 20% (blue = people and money in the page's colour system). Transforms: joinaggregate calculates each cost's average across both groups, used to sort the rows from biggest to smallest (layered charts can only sort by count, min or max, so I sort by the max of that average); calculate turns each % into a class label. Small surveys (49 producers, 14 processors) are disclosed in the subtitle.",
   "title": {
     "text": ["Freight is the biggest worry for processors,", "labour for farmers"],
     "subtitle": [
@@ -53,6 +54,7 @@
   },
   "layer": [
     {
+      "description": "Layer 1: the coloured cells (rect marks) with thick white gaps between them, and a tooltip for each cell.",
       "mark": {"type": "rect", "stroke": "#ffffff", "strokeWidth": 3},
       "encoding": {
         "color": {
@@ -84,6 +86,7 @@
       }
     },
     {
+      "description": "Layer 2: orange outline on the biggest cost in each column. 'window' ranks costs within each group (groupby: group) and the filter keeps rank 1. Orange guides attention to the key facts.",
       "transform": [
         {
           "window": [{"op": "rank", "as": "rank_in_group"}],
@@ -95,6 +98,7 @@
       "mark": {"type": "rect", "fill": null, "stroke": "#d95f02", "strokeWidth": 3}
     },
     {
+      "description": "Layer 3: the value written in each cell; white on dark cells (60% and above) and dark on light cells, for contrast.",
       "mark": {"type": "text", "fontSize": 16, "fontWeight": 600},
       "encoding": {
         "text": {"field": "percent", "type": "quantitative", "format": "d"},
