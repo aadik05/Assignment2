@@ -1,0 +1,103 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "CHART 13 - Slope chart (advanced idiom). The main reasons Australians give for not buying (more) organic food, 2022 vs 2026 (Mobium Group Organic Consumer Research, in the Australian Organic Market Report). Why a slope chart: two points in time for a few categories; the slope of each line shows at a glance whether a barrier grew, shrank or stayed the same (Kirk). It is a true slope graph (two parallel time axes joined by lines), not a dumbbell/dot plot. Availability and validation were only asked in 2026, so they appear as dots on the 2026 side with no line. Orange = the key fact (price), grey = the other barriers. The x and y encodings at the top are shared by all layers.",
+  "title": {
+    "text": ["Price is still the biggest barrier to", "buying organic, though it eased slightly"],
+    "subtitle": [
+      "% of surveyed Australians naming each barrier, 2022 and 2026.",
+      "Availability and validation were not asked in 2022."
+    ],
+    "anchor": "start",
+    "font": "Fraunces, serif",
+    "fontSize": 22,
+    "fontWeight": 600,
+    "color": "#2b2b2b",
+    "subtitleFont": "'Source Sans 3', sans-serif",
+    "subtitleFontSize": 16,
+    "subtitleFontWeight": 400,
+    "subtitleColor": "#5f5f5f",
+    "subtitlePadding": 6,
+    "offset": 16,
+    "lineHeight": 28,
+    "subtitleLineHeight": 20
+  },
+  "width": "container",
+  "height": 300,
+  "data": {
+    "url": "data/barriers.csv",
+    "format": {"type": "csv", "parse": {"percent": "number", "year": "string"}}
+  },
+  "transform": [
+    {"filter": "isValid(datum.percent)"},
+    {"calculate": "datum.barrier == 'Price or value' ? 'key' : 'other'", "as": "highlight"}
+  ],
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "title": null,
+      "scale": {"type": "point", "padding": 0.4, "paddingOuter": 0.9},
+      "axis": {"orient": "top", "labelAngle": 0, "labelFontSize": 16, "labelColor": "#2b2b2b", "labelFontWeight": 600, "domain": false, "ticks": false, "labelPadding": 8}
+    },
+    "y": {
+      "field": "percent",
+      "type": "quantitative",
+      "title": null,
+      "scale": {"domain": [0, 100]},
+      "axis": null
+    },
+    "color": {
+      "field": "highlight",
+      "type": "nominal",
+      "scale": {"domain": ["key", "other"], "range": ["#d95f02", "#8c8c8c"]},
+      "legend": null
+    }
+  },
+  "layer": [
+    {
+      "description": "Layer 1: thin vertical guide lines for the two years (the two parallel axes of the slope graph).",
+      "data": {"values": [{"year": "2022"}, {"year": "2026"}]},
+      "mark": {"type": "rule", "color": "#e4e1da", "strokeWidth": 1},
+      "encoding": {"y": {"datum": 0}, "y2": {"datum": 100}, "color": {"value": "#e4e1da"}}
+    },
+    {
+      "description": "Layer 2: one line per barrier joining its 2022 and 2026 values (only barriers asked in both years have two points).",
+      "mark": {"type": "line", "strokeWidth": 3},
+      "encoding": {"detail": {"field": "barrier", "type": "nominal"}}
+    },
+    {
+      "description": "Layer 3: a dot at every value, with a tooltip.",
+      "mark": {"type": "circle", "size": 90, "opacity": 1},
+      "encoding": {
+        "tooltip": [
+          {"field": "barrier", "type": "nominal", "title": "Barrier"},
+          {"field": "year", "type": "nominal", "title": "Year"},
+          {"field": "percent", "type": "quantitative", "title": "% naming it"}
+        ]
+      }
+    },
+    {
+      "description": "Layer 4: 2022 values written to the left of the left-hand dots.",
+      "transform": [{"filter": "datum.year == '2022'"}],
+      "mark": {"type": "text", "align": "right", "baseline": "middle", "dx": -10, "fontSize": 14, "fontWeight": 600},
+      "encoding": {"text": {"field": "percent", "type": "quantitative", "format": "d"}}
+    },
+    {
+      "description": "Layer 5: 2026 labels to the right, with the barrier name and value. Trust is nudged up and availability down slightly because their values (35 and 34) are almost the same.",
+      "transform": [
+        {"filter": "datum.year == '2026'"},
+        {"calculate": "datum.barrier + ' ' + datum.percent + '%'", "as": "label"},
+        {"calculate": "datum.barrier == 'Trust or authenticity' ? -8 : datum.barrier == 'Availability' ? 8 : 0", "as": "nudge"}
+      ],
+      "mark": {"type": "text", "align": "left", "baseline": "middle", "dx": 10, "dy": {"expr": "datum.nudge"}, "fontSize": 14, "fontWeight": 600},
+      "encoding": {"text": {"field": "label"}}
+    }
+  ],
+  "config": {
+    "background": "transparent",
+    "font": "'Source Sans 3', sans-serif",
+    "view": {"stroke": null},
+    "axis": {"labelFont": "'Source Sans 3', sans-serif", "grid": false},
+    "text": {"font": "'Source Sans 3', sans-serif"}
+  }
+}

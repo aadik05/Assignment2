@@ -1,0 +1,105 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "CHART 11 - Diverging bar chart, sorted (basic idiom). The organic grocery categories whose sales grew or fell the most, 12 months to June 2025 vs the year before (NielsenIQ data in the Australian Organic Market Report). Why bars: length from a shared zero line is the most accurate way to compare these nine changes, and sorting makes the ranking instant. Blue = growth, grey = decline (no red and green, which colour-blind readers confuse). Each category's total sales (AU$m) are in brackets so readers can see which changes involve big categories. Transforms: build the label with the sales figure; the y encoding at the top is shared by all layers.",
+  "title": {
+    "text": ["Frozen fruit and fresh meat surged,", "chilled juice sales halved"],
+    "subtitle": [
+      "Change in organic sales by category, 12 months to June 2025 vs",
+      "the year before. Biggest risers and fallers only; each category's",
+      "total sales in brackets."
+    ],
+    "anchor": "start",
+    "font": "Fraunces, serif",
+    "fontSize": 22,
+    "fontWeight": 600,
+    "color": "#2b2b2b",
+    "subtitleFont": "'Source Sans 3', sans-serif",
+    "subtitleFontSize": 16,
+    "subtitleFontWeight": 400,
+    "subtitleColor": "#5f5f5f",
+    "subtitlePadding": 6,
+    "offset": 16,
+    "lineHeight": 28,
+    "subtitleLineHeight": 20
+  },
+  "width": "container",
+  "height": 330,
+  "data": {
+    "url": "data/retail_categories.csv",
+    "format": {"type": "csv", "parse": {"change_pct": "number", "sales_m": "number"}}
+  },
+  "transform": [
+    {"calculate": "datum.category + ' (AU$' + format(datum.sales_m, '.1f') + 'm)'", "as": "row_label"},
+    {"calculate": "(datum.change_pct > 0 ? '+' : '') + format(datum.change_pct, '.0f') + '%'", "as": "label"}
+  ],
+  "encoding": {
+    "y": {
+      "field": "row_label",
+      "type": "nominal",
+      "title": null,
+      "sort": {"field": "change_pct", "op": "max", "order": "descending"},
+      "axis": {"labelFontSize": 14, "labelColor": "#2b2b2b", "domain": false, "ticks": false, "labelPadding": 10, "labelLimit": 280}
+    }
+  },
+  "layer": [
+    {
+      "description": "Layer 1: the bars, from zero to each category's % change.",
+      "mark": {"type": "bar", "height": {"band": 0.65}, "cornerRadius": 2},
+      "encoding": {
+        "x": {
+          "field": "change_pct",
+          "type": "quantitative",
+          "title": "% change in sales",
+          "scale": {"domain": [-70, 60]},
+          "axis": {"values": [-50, -25, 0, 25, 50], "labelExpr": "(datum.value > 0 ? '+' : '') + datum.value + '%'", "grid": true}
+        },
+        "color": {"condition": {"test": "datum.change_pct > 0", "value": "#3182bd"}, "value": "#b8b2a7"},
+        "tooltip": [
+          {"field": "category", "type": "nominal", "title": "Category"},
+          {"field": "change_pct", "type": "quantitative", "title": "% change", "format": "+.1f"},
+          {"field": "sales_m", "type": "quantitative", "title": "Total sales (AU$m)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "description": "Layer 2: a dark line at zero, the shared baseline.",
+      "data": {"values": [{"x": 0}]},
+      "mark": {"type": "rule", "color": "#2b2b2b", "strokeWidth": 1},
+      "encoding": {"x": {"field": "x", "type": "quantitative"}, "y": null}
+    },
+    {
+      "description": "Layer 3: the % written at the end of each bar (right of growth bars, left of decline bars).",
+      "mark": {
+        "type": "text",
+        "baseline": "middle",
+        "fontSize": 14,
+        "fontWeight": 600,
+        "color": "#2b2b2b",
+        "align": {"expr": "datum.change_pct > 0 ? 'left' : 'right'"},
+        "dx": {"expr": "datum.change_pct > 0 ? 5 : -5"}
+      },
+      "encoding": {
+        "x": {"field": "change_pct", "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    }
+  ],
+  "config": {
+    "background": "transparent",
+    "font": "'Source Sans 3', sans-serif",
+    "view": {"stroke": null},
+    "axis": {
+      "labelFont": "'Source Sans 3', sans-serif",
+      "titleFont": "'Source Sans 3', sans-serif",
+      "labelFontSize": 14,
+      "titleFontSize": 14,
+      "titleFontWeight": 400,
+      "titleColor": "#5f5f5f",
+      "labelColor": "#5f5f5f",
+      "gridColor": "#e6e6e6",
+      "domainColor": "#999999",
+      "tickColor": "#999999"
+    },
+    "text": {"font": "'Source Sans 3', sans-serif"}
+  }
+}

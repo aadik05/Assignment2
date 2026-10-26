@@ -1,0 +1,119 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "CHART 10 - Waterfall chart (advanced idiom). Splits the AU$69.9m rise in organic grocery sales (AU$587.7m in 2023/24 to AU$657.6m in 2024/25) into three parts. This split is MY ESTIMATE from the report's own % changes, and is disclosed in the subtitle: (1) more households buying = 2023/24 sales x 1.8% (the rise in households buying); (2) higher prices = that new total x 9.2% (the rise in average price per kg); (3) buying more or different products = what remains. Why a waterfall: it shows how separate parts add up to one total change, step by step. The baseline is zero, so bar lengths are honest. Transforms: pick the needed numbers from the rows of demand_change.csv (joinaggregate copies them onto every row), calculate the three parts and the total, fold them into 4 rows, then a running total (window sum) gives each bar's start and end.",
+  "title": {
+    "text": ["Higher prices explain most of the", "AU$70 million rise in organic sales"],
+    "subtitle": [
+      "Change in organic grocery sales, 2023/24 to 2024/25, AU$ million. Our estimate:",
+      "households buying rose 1.8% and the average price per kg rose 9.2%;",
+      "the last part is what remains."
+    ],
+    "anchor": "start",
+    "font": "Fraunces, serif",
+    "fontSize": 22,
+    "fontWeight": 600,
+    "color": "#2b2b2b",
+    "subtitleFont": "'Source Sans 3', sans-serif",
+    "subtitleFontSize": 16,
+    "subtitleFontWeight": 400,
+    "subtitleColor": "#5f5f5f",
+    "subtitlePadding": 6,
+    "offset": 16,
+    "lineHeight": 28,
+    "subtitleLineHeight": 20
+  },
+  "width": "container",
+  "height": 240,
+  "data": {
+    "url": "data/demand_change.csv",
+    "format": {"type": "csv", "parse": {"value_2024": "number", "value_2025": "number", "change_pct": "number"}}
+  },
+  "transform": [
+    {"calculate": "datum.measure == 'Domestic retail sales' ? datum.value_2024 : 0", "as": "s24"},
+    {"calculate": "datum.measure == 'Domestic retail sales' ? datum.value_2025 : 0", "as": "s25"},
+    {"calculate": "datum.measure == 'Households buying organic' ? datum.change_pct : 0", "as": "hh"},
+    {"calculate": "datum.measure == 'Average price per kg' ? datum.change_pct : 0", "as": "price"},
+    {
+      "joinaggregate": [
+        {"op": "sum", "field": "s24", "as": "sales_2024"},
+        {"op": "sum", "field": "s25", "as": "sales_2025"},
+        {"op": "sum", "field": "hh", "as": "hh_pct"},
+        {"op": "sum", "field": "price", "as": "price_pct"}
+      ]
+    },
+    {"filter": "datum.measure == 'Domestic retail sales'"},
+    {"calculate": "datum.sales_2024 * datum.hh_pct / 100", "as": "More households buying"},
+    {"calculate": "(datum.sales_2024 + datum['More households buying']) * datum.price_pct / 100", "as": "Higher prices"},
+    {"calculate": "datum.sales_2025 - datum.sales_2024 - datum['More households buying'] - datum['Higher prices']", "as": "Buying more or different products"},
+    {"calculate": "datum.sales_2025 - datum.sales_2024", "as": "Total rise in sales"},
+    {"fold": ["More households buying", "Higher prices", "Buying more or different products", "Total rise in sales"], "as": ["step", "amount"]},
+    {"calculate": "indexof(['More households buying', 'Higher prices', 'Buying more or different products', 'Total rise in sales'], datum.step)", "as": "step_order"},
+    {"calculate": "datum.step == 'Total rise in sales' ? 0 : datum.amount", "as": "adds"},
+    {"window": [{"op": "sum", "field": "adds", "as": "running"}], "sort": [{"field": "step_order"}], "frame": [null, 0]},
+    {"calculate": "datum.step == 'Total rise in sales' ? 0 : datum.running - datum.amount", "as": "bar_start"},
+    {"calculate": "datum.step == 'Total rise in sales' ? datum.amount : datum.running", "as": "bar_end"},
+    {"calculate": "'+AU$' + format(datum.amount, '.1f') + 'm'", "as": "label"}
+  ],
+  "encoding": {
+    "y": {
+      "field": "step",
+      "type": "nominal",
+      "title": null,
+      "sort": {"field": "step_order", "op": "min"},
+      "axis": {"labelFontSize": 15, "labelColor": "#2b2b2b", "domain": false, "ticks": false, "labelPadding": 10, "labelLimit": 260}
+    }
+  },
+  "layer": [
+    {
+      "description": "Layer 1: the floating bars. Each part starts where the previous one ended (x = bar_start, x2 = bar_end); the total bar starts at zero. Orange = the key fact (prices), dark blue = the total, light blue = the other parts.",
+      "mark": {"type": "bar", "height": {"band": 0.6}, "cornerRadius": 2},
+      "encoding": {
+        "x": {
+          "field": "bar_start",
+          "type": "quantitative",
+          "title": "AU$ million",
+          "scale": {"domain": [0, 90]},
+          "axis": {"values": [0, 10, 20, 30, 40, 50, 60, 70], "grid": true}
+        },
+        "x2": {"field": "bar_end"},
+        "color": {
+          "condition": [
+            {"test": "datum.step == 'Higher prices'", "value": "#d95f02"},
+            {"test": "datum.step == 'Total rise in sales'", "value": "#08519c"}
+          ],
+          "value": "#9ecae1"
+        },
+        "tooltip": [
+          {"field": "step", "type": "nominal", "title": "Part"},
+          {"field": "amount", "type": "quantitative", "title": "AU$ million", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "description": "Layer 2: the amount written just past the end of each bar.",
+      "mark": {"type": "text", "align": "left", "baseline": "middle", "dx": 6, "fontSize": 14, "fontWeight": 600, "color": "#2b2b2b"},
+      "encoding": {
+        "x": {"field": "bar_end", "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    }
+  ],
+  "config": {
+    "background": "transparent",
+    "font": "'Source Sans 3', sans-serif",
+    "view": {"stroke": null},
+    "axis": {
+      "labelFont": "'Source Sans 3', sans-serif",
+      "titleFont": "'Source Sans 3', sans-serif",
+      "labelFontSize": 14,
+      "titleFontSize": 14,
+      "titleFontWeight": 400,
+      "titleColor": "#5f5f5f",
+      "labelColor": "#5f5f5f",
+      "gridColor": "#e6e6e6",
+      "domainColor": "#999999",
+      "tickColor": "#999999"
+    },
+    "text": {"font": "'Source Sans 3', sans-serif"}
+  }
+}

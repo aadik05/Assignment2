@@ -114,13 +114,55 @@
       <div class="row">
         <div class="col-12"><div id="chart8" class="chart"></div></div>
       </div>
+      <p>And most of what leaves is meat. Beef sent to the United States alone accounts for 26,483 tonnes, more than half of everything Australia exports as organic.</p>
+      <!-- Chart 9: isotype of export products, full width -->
+      <div class="row">
+        <div class="col-12"><div id="chart9" class="chart"></div></div>
+      </div>
     </section>
 
-    <!-- PART 4: domestic demand (charts still to come) -->
+    <!-- PART 4: domestic demand (charts 10 to 13) and the conclusion -->
     <section>
       <span class="kicker">Part 4</span>
       <h2>At the checkout</h2>
-      <p>Placeholder text for section 4.</p>
+      <p class="lead">Australians spent AU$657.6 million on organic groceries in 2024/25, 11.9% more than the year before. That sounds like booming demand, but it isn't the whole story.</p>
+      <!-- Chart 10: text left (col-4), waterfall right (col-8) -->
+      <div class="row">
+        <div class="col-4">
+          <p><span class="stat-inline">+9.2%</span> The average price of organic food per kilogram rose by 9.2% in a year. Most of the extra money spent went on paying more, not on buying more.</p>
+          <p>The number of households buying organic grew only a little (+1.8%), and the share of households buying it at all slipped from 77.2% to 76.8%.</p>
+        </div>
+        <div class="col-8"><div id="chart10" class="chart"></div></div>
+      </div>
+      <!-- Chart 11: text left (col-4), diverging bars right (col-8) -->
+      <div class="row">
+        <div class="col-4">
+          <p><span class="stat-inline">AU$46.3m</span> Fresh vegetables are the biggest of these categories and still growing (+17%). Frozen fruit and desserts grew fastest (+46%).</p>
+          <p>Other habits are fading: organic chilled juice sales halved, and ice cream, milk and infant food all fell.</p>
+        </div>
+        <div class="col-8"><div id="chart11" class="chart"></div></div>
+      </div>
+      <p>Most of this shopping happens in the same places as everyday groceries. Specialty and independent stores, online shops and farmers selling direct take only a small slice.</p>
+      <!-- Chart 12: stacked bar, full width -->
+      <div class="row">
+        <div class="col-12"><div id="chart12" class="chart"></div></div>
+      </div>
+      <!-- Chart 13: text left (col-4), slope chart right (col-8) -->
+      <div class="row">
+        <div class="col-4">
+          <p><span class="stat-inline">80%</span> Price is by far the main reason Australians give for not buying more organic food. Among people who never buy it, more than nine in ten say it costs too much.</p>
+          <p>Trust is the second barrier, and it has not improved. One in three organic buyers has unknowingly bought a product that wasn't really certified organic. Australia is the only OECD country without a national standard for the word "organic".</p>
+        </div>
+        <div class="col-8"><div id="chart13" class="chart"></div></div>
+      </div>
+    </section>
+
+    <!-- CONCLUSION: answers the question asked in the introduction -->
+    <section>
+      <span class="kicker">In short</span>
+      <h2>A giant abroad, a slow climber at home</h2>
+      <p class="lead">Australia farms about half of the world's certified organic land. More than a third of the industry's sales by value are exports, and two-thirds of those exports by weight go to the United States, mostly as beef.</p>
+      <p>At home, Australians are spending more on organic food each year, but mostly because it costs more. Slightly fewer households now buy organic at all, and price and trust remain the biggest reasons people hold back. Australia's organic boom is a story of land and exports; at the checkout, demand is only just keeping pace.</p>
     </section>
 
     <!-- ===== FOOTER: metadata (author, date), every data source, map and image credit with its URL,
@@ -131,7 +173,7 @@
       <p>Data: certified organic and agricultural land, UN Food and Agriculture Organization (FAOSTAT), processed by <a href="https://ourworldindata.org/grapher/organic-agricultural-area">Our World in Data</a>; <a href="https://austorganic.com/wp-content/uploads/2026/08/Australian-Organic-Market-Report-Snapshot-2026.pdf">Australian Organic Market Report Snapshot 2026</a> (Australian Organic Limited), including data from NielsenIQ Homescan, Mobium Group and the Department of Agriculture, Fisheries and Forestry.</p>
       <p>Maps: <a href="https://www.naturalearthdata.com/">Natural Earth</a> country and state boundaries (public domain); world TopoJSON from the FIT3179 Vega-Lite studio repository; state boundaries simplified with mapshaper. Country centre points: <a href="https://developers.google.com/public-data/docs/canonical/countries_csv">Google DSPL countries.csv</a>.</p>
       <p>Header image: [image title], by [artist name], <a href="[image page URL]">[website]</a>. Fill in where the image came from and its licence.</p>
-      <p>AI acknowledgement: say here which AI tool you used and what for.</p>
+      <p>AI acknowledgement: Claude (Anthropic) was used to help write and debug the Vega-Lite, HTML and CSS code, check calculations against the data files, and edit the text for clarity and grammar. The topic, story, chart choices and all data sources were chosen and checked by the author.</p>
     </footer>
 
   </main>

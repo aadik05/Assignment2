@@ -1,0 +1,77 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "CHART 12 - 100% stacked bar (basic idiom). Where Australians buy their organic groceries: major supermarkets, other supermarkets, and specialty, independent, online and direct sellers. Why one stacked bar: three parts of one whole (they add up to 100%), shown compactly with exact labels; length along one bar is easier to compare than pie angles. Blues because shoppers are 'people and money' in the page's colour system, darkest for the biggest share. Transforms: tidy the category name; text colour is white on the dark segments.",
+  "title": {
+    "text": "Four in five organic grocery dollars are spent at the major supermarkets",
+    "subtitle": "Share of organic grocery sales by type of store, 2024/25",
+    "anchor": "start",
+    "font": "Fraunces, serif",
+    "fontSize": 22,
+    "fontWeight": 600,
+    "color": "#2b2b2b",
+    "subtitleFont": "'Source Sans 3', sans-serif",
+    "subtitleFontSize": 16,
+    "subtitleFontWeight": 400,
+    "subtitleColor": "#5f5f5f",
+    "subtitlePadding": 6,
+    "offset": 16
+  },
+  "width": "container",
+  "height": 60,
+  "data": {
+    "url": "data/shoppers.csv",
+    "format": {"type": "csv", "parse": {"share": "number", "order": "number"}}
+  },
+  "transform": [
+    {"calculate": "datum.channel == 'Specialty independent online and direct' ? 'Specialty, independent, online and direct' : datum.channel", "as": "store"},
+    {"calculate": "datum.share + '%'", "as": "label"}
+  ],
+  "encoding": {
+    "x": {
+      "field": "share",
+      "type": "quantitative",
+      "stack": "zero",
+      "scale": {"domain": [0, 100]},
+      "axis": null
+    },
+    "order": {"field": "order"}
+  },
+  "layer": [
+    {
+      "description": "Layer 1: the three segments of the bar, in the order biggest to smallest.",
+      "mark": {"type": "bar", "stroke": "#ffffff", "strokeWidth": 2},
+      "encoding": {
+        "color": {
+          "field": "store",
+          "type": "nominal",
+          "title": null,
+          "scale": {
+            "domain": ["Major supermarkets", "Other supermarkets", "Specialty, independent, online and direct"],
+            "range": ["#08519c", "#6baed6", "#c6dbef"]
+          },
+          "legend": {"orient": "bottom", "direction": "horizontal", "symbolType": "square", "symbolSize": 180, "columnPadding": 18, "labelLimit": 320}
+        },
+        "tooltip": [
+          {"field": "store", "type": "nominal", "title": "Type of store"},
+          {"field": "share", "type": "quantitative", "title": "Share of sales (%)"}
+        ]
+      }
+    },
+    {
+      "description": "Layer 2: the % in the middle of each segment (stack: zero with bandPosition puts it at the centre).",
+      "mark": {"type": "text", "baseline": "middle", "fontSize": 16, "fontWeight": 600},
+      "encoding": {
+        "x": {"field": "share", "type": "quantitative", "stack": "zero", "bandPosition": 0.5},
+        "text": {"field": "label"},
+        "color": {"condition": {"test": "datum.order <= 2", "value": "#ffffff"}, "value": "#2b2b2b"}
+      }
+    }
+  ],
+  "config": {
+    "background": "transparent",
+    "font": "'Source Sans 3', sans-serif",
+    "view": {"stroke": null},
+    "legend": {"labelFont": "'Source Sans 3', sans-serif", "labelFontSize": 14, "labelColor": "#2b2b2b"},
+    "text": {"font": "'Source Sans 3', sans-serif"}
+  }
+}

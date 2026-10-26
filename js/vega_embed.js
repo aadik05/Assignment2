@@ -12,15 +12,16 @@ var charts = [
   ["#chart5", "js/charts/05_world_share_waffle.vg.json"],
   ["#chart6", "js/charts/06_australia_world_stacked_area.vg.json"],
   ["#chart7", "js/charts/07_cost_pressures_heatmap.vg.json"],
-  ["#chart8", "js/charts/08_export_flow_map.vg.json"]
+  ["#chart8", "js/charts/08_export_flow_map.vg.json"],
+  ["#chart9", "js/charts/09_export_products_isotype.vg.json"],
+  ["#chart10", "js/charts/10_sales_growth_waterfall.vg.json"],
+  ["#chart11", "js/charts/11_category_movers_bars.vg.json"],
+  ["#chart12", "js/charts/12_where_shoppers_buy_bar.vg.json"],
+  ["#chart13", "js/charts/13_barriers_slope.vg.json"]
 ];
 
 // Loop over the list. For each chart, vegaEmbed (from the vega-embed library loaded in the <head>)
 // fetches the JSON file, compiles the Vega-Lite spec to Vega, and draws it inside the box.
-// chart[0] is the box id, chart[1] is the file.
-// "actions: false" hides the small "..." export menu, which would be clutter on a presentation page.
-// vegaEmbed returns a promise; .catch(console.error) prints any problem (such as a wrong file name)
-// in the browser console instead of failing silently.
 charts.forEach(function (chart) {
   vegaEmbed(chart[0], chart[1], { actions: false }).catch(console.error);
 });

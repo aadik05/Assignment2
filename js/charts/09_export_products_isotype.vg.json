@@ -1,0 +1,87 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "CHART 9 - Isotype / pictogram chart (advanced idiom). What Australia exports, by product type, FY2024/25. Each icon = 1,000 tonnes (rounded to whole icons, so products under 500 t get no icon); the exact tonnes and share of all 42,833 t exported are written at the end of each row. Why an isotype: icons make each product instantly recognisable and the counts easy to compare and remember (Week 5 workshop, Neurath's Isotype). Rows are sorted from largest to smallest. Transforms: share = tonnes / 42,833 x 100 (the report's export total); icons = round(tonnes / 1,000). The y encoding at the top is shared by both layers.",
+  "title": {
+    "text": "Meat makes up almost two-thirds of Australia's organic exports",
+    "subtitle": [
+      "Certified organic exports by product type, 2024/25. Each icon = 1,000 tonnes (rounded).",
+      "*Non-prescribed goods are products that don't need a government export permit,",
+      "mostly processed and packaged foods."
+    ],
+    "anchor": "start",
+    "font": "Fraunces, serif",
+    "fontSize": 22,
+    "fontWeight": 600,
+    "color": "#2b2b2b",
+    "subtitleFont": "'Source Sans 3', sans-serif",
+    "subtitleFontSize": 16,
+    "subtitleFontWeight": 400,
+    "subtitleColor": "#5f5f5f",
+    "subtitlePadding": 6,
+    "offset": 16,
+    "subtitleLineHeight": 20
+  },
+  "width": "container",
+  "height": 330,
+  "data": {
+    "url": "data/export_commodities.csv",
+    "format": {"type": "csv", "parse": {"tonnes": "number"}}
+  },
+  "transform": [
+    {"calculate": "datum.tonnes / 42833 * 100", "as": "share"},
+    {"calculate": "round(datum.tonnes / 1000)", "as": "icons"},
+    {"calculate": "datum.commodity == 'Non-prescribed goods' ? 'Non-prescribed goods*' : datum.commodity", "as": "row_label"}
+  ],
+  "encoding": {
+    "y": {
+      "field": "row_label",
+      "type": "nominal",
+      "title": null,
+      "sort": {"field": "tonnes", "op": "max", "order": "descending"},
+      "axis": {"labelFontSize": 15, "labelColor": "#2b2b2b", "domain": false, "ticks": false, "labelPadding": 12, "labelLimit": 220}
+    }
+  },
+  "layer": [
+    {
+      "description": "Layer 1: the icons. sequence(1, icons + 1) makes a list 1..icons and flatten turns it into one row per icon; x = the icon's number places them in a line. The emoji is chosen by product type. Font size shrinks on narrow screens so icons don't overlap.",
+      "transform": [
+        {"calculate": "sequence(1, datum.icons + 1)", "as": "icon"},
+        {"flatten": ["icon"]},
+        {
+          "calculate": "datum.commodity == 'Meat' ? '🐄' : datum.commodity == 'Non-prescribed goods' ? '📦' : datum.commodity == 'Grain and seed' ? '🌾' : datum.commodity == 'Horticulture' ? '🍎' : datum.commodity == 'Wine' ? '🍷' : datum.commodity == 'Dairy' ? '🥛' : datum.commodity == 'Mixed products' ? '🧺' : '🐟'",
+          "as": "emoji"
+        }
+      ],
+      "mark": {"type": "text", "baseline": "middle", "fontSize": {"expr": "min(22, width / 36)"}},
+      "encoding": {
+        "x": {"field": "icon", "type": "quantitative", "scale": {"domain": [0.5, 36]}, "axis": null},
+        "text": {"field": "emoji"},
+        "tooltip": [
+          {"field": "commodity", "type": "nominal", "title": "Product"},
+          {"field": "tonnes", "type": "quantitative", "title": "Tonnes", "format": ","},
+          {"field": "share", "type": "quantitative", "title": "% of organic exports", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "description": "Layer 2: exact tonnes and share at the end of each row (products with no icon get their label at the start). Meat's label is bold orange, the key fact.",
+      "transform": [
+        {"calculate": "datum.icons + 0.9", "as": "label_x"},
+        {"calculate": "format(datum.tonnes, ',') + ' t (' + (datum.share < 1 ? 'under 1' : format(datum.share, '.0f')) + '%)'", "as": "label"}
+      ],
+      "mark": {"type": "text", "align": "left", "baseline": "middle", "fontSize": 14, "fontWeight": {"expr": "datum.commodity == 'Meat' ? 600 : 400"}},
+      "encoding": {
+        "x": {"field": "label_x", "type": "quantitative"},
+        "text": {"field": "label"},
+        "color": {"condition": {"test": "datum.commodity == 'Meat'", "value": "#d95f02"}, "value": "#5f5f5f"}
+      }
+    }
+  ],
+  "config": {
+    "background": "transparent",
+    "font": "'Source Sans 3', sans-serif",
+    "view": {"stroke": null},
+    "axis": {"labelFont": "'Source Sans 3', sans-serif", "grid": false},
+    "text": {"font": "'Source Sans 3', sans-serif"}
+  }
+}
