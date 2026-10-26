@@ -76,7 +76,7 @@ h1 {
   line-height: 1.1;
   margin: 0 0 20px;
 }
-.intro { font-size: 22px; max-width: 62ch; margin: 0 0 12px; }
+.intro { font-size: 22px; margin: 0 0 12px; }   /* fills the text column beside the header picture */
 .byline { font-size: 15px; color: var(--muted); margin: 0; }
 
 /* Key numbers under the title: four equal cards in a row */
@@ -122,7 +122,7 @@ h2 {
   padding-bottom: 12px;
   border-bottom: 2px solid var(--line);
 }
-p { max-width: 65ch; margin: 0 0 16px; }   /* comfortable line length: about 60-65 characters ("ch") per line */
+p { margin: 0 0 16px; }   /* paragraphs fill the full column width, lining up with the chart panels' edges */
 .lead { font-size: 20px; }                 /* slightly larger opening paragraph of a section */
 .note { font-size: 15px; color: var(--muted); }   /* small grey notes about data limitations */
 
