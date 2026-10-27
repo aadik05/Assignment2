@@ -313,6 +313,12 @@ footer {
 footer h3 { font-family: "Fraunces", serif; color: var(--ink); font-size: 20px; margin: 0 0 8px; }
 footer p { max-width: none; }
 footer a { color: var(--green); }
+/* Data source list: one line per source, with the charts it feeds as a small tag */
+footer .sources { margin: 0 0 20px; padding-left: 18px; }
+footer .sources li { margin-bottom: 6px; }
+footer .sources ul { margin: 6px 0 0; padding-left: 18px; list-style: circle; }
+footer .used { font-size: 13px; color: var(--ink); background: var(--line); padding: 1px 6px; border-radius: 3px; white-space: nowrap; }
+footer p + h3 { margin-top: 20px; }
 
 /* ---------- Narrower screens: stack the columns ----------
    A media query: these rules only apply when the window is 860px wide or less.

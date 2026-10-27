@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "CHART 13 - Slope chart (advanced idiom). The main reasons Australians give for not buying (more) organic food, 2022 vs 2026 (Mobium Group Organic Consumer Research, in the Australian Organic Market Report). Why a slope chart: two points in time for a few categories; the slope of each line shows at a glance whether a barrier grew, shrank or stayed the same (Kirk). It is a true slope graph (two parallel time axes joined by lines), not a dumbbell/dot plot. Availability and validation were only asked in 2026, so they appear as dots on the 2026 side with no line. Orange = the key fact (price), grey = the other barriers. The x and y encodings at the top are shared by all layers.",
+  "description": "CHART 13 - Slope chart (advanced idiom). The two main reasons Australians give for not buying (more) organic food that were asked in both 2022 and 2026: price or value, and trust or authenticity (Mobium Group Organic Consumer Research, in the Australian Organic Market Report). Why a slope chart: two points in time for a few categories; each line's slope shows whether a barrier grew, shrank or stayed the same, and its height shows how big it is (Kirk). It is a true slope graph (two parallel time axes joined by lines), not a dumbbell/dot plot. Barriers only asked in 2026 (availability, validation) have nothing to compare, so they are left out of the chart and mentioned in the text instead. Transforms: keep rows with a value; joinaggregate counts each barrier's years and the filter keeps barriers asked in both. Orange = the key fact (price), grey = trust. Faint gridlines at 0-100% make heights readable. The x and y encodings at the top are shared by all layers.",
   "width": "container",
   "height": 300,
   "data": {
@@ -9,6 +9,8 @@
   },
   "transform": [
     {"filter": "isValid(datum.percent)"},
+    {"joinaggregate": [{"op": "count", "as": "years_asked"}], "groupby": ["barrier"]},
+    {"filter": "datum.years_asked == 2"},
     {"calculate": "datum.barrier == 'Price or value' ? 'key' : 'other'", "as": "highlight"}
   ],
   "encoding": {
@@ -24,7 +26,17 @@
       "type": "quantitative",
       "title": null,
       "scale": {"domain": [0, 100]},
-      "axis": null
+      "axis": {
+        "values": [0, 25, 50, 75, 100],
+        "labelExpr": "datum.value + '%'",
+        "grid": true,
+        "gridColor": "#e6e6e6",
+        "domain": false,
+        "ticks": false,
+        "labelFontSize": 13,
+        "labelColor": "#5f5f5f",
+        "labelPadding": 6
+      }
     },
     "color": {
       "field": "highlight",
@@ -37,11 +49,11 @@
     {
       "description": "Layer 1: thin vertical guide lines for the two years (the two parallel axes of the slope graph).",
       "data": {"values": [{"year": "2022"}, {"year": "2026"}]},
-      "mark": {"type": "rule", "color": "#e4e1da", "strokeWidth": 1},
-      "encoding": {"y": {"datum": 0}, "y2": {"datum": 100}, "color": {"value": "#e4e1da"}}
+      "mark": {"type": "rule", "color": "#d6d2ca", "strokeWidth": 1},
+      "encoding": {"y": {"datum": 0}, "y2": {"datum": 100}, "color": {"value": "#d6d2ca"}}
     },
     {
-      "description": "Layer 2: one line per barrier joining its 2022 and 2026 values (only barriers asked in both years have two points).",
+      "description": "Layer 2: one line per barrier joining its 2022 and 2026 values.",
       "mark": {"type": "line", "strokeWidth": 3},
       "encoding": {"detail": {"field": "barrier", "type": "nominal"}}
     },
@@ -63,13 +75,12 @@
       "encoding": {"text": {"field": "percent", "type": "quantitative", "format": "d"}}
     },
     {
-      "description": "Layer 5: 2026 labels to the right, with the barrier name and value. Trust is nudged up and availability down slightly because their values (35 and 34) are almost the same.",
+      "description": "Layer 5: 2026 labels to the right of the right-hand dots, with the barrier name and value.",
       "transform": [
         {"filter": "datum.year == '2026'"},
-        {"calculate": "datum.barrier + ' ' + datum.percent + '%'", "as": "label"},
-        {"calculate": "datum.barrier == 'Trust or authenticity' ? -8 : datum.barrier == 'Availability' ? 8 : 0", "as": "nudge"}
+        {"calculate": "datum.barrier + ' ' + datum.percent + '%'", "as": "label"}
       ],
-      "mark": {"type": "text", "align": "left", "baseline": "middle", "dx": 10, "dy": {"expr": "datum.nudge"}, "fontSize": 14, "fontWeight": 600},
+      "mark": {"type": "text", "align": "left", "baseline": "middle", "dx": 10, "fontSize": 14, "fontWeight": 600},
       "encoding": {"text": {"field": "label"}}
     }
   ],
@@ -77,7 +88,7 @@
     "background": "transparent",
     "font": "'Source Sans 3', sans-serif",
     "view": {"stroke": null},
-    "axis": {"labelFont": "'Source Sans 3', sans-serif", "grid": false},
+    "axis": {"labelFont": "'Source Sans 3', sans-serif"},
     "text": {"font": "'Source Sans 3', sans-serif"}
   }
 }
