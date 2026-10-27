@@ -1,16 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "CHART 3 - Proportional symbol map (advanced idiom: map). Shows the 15 countries with the most certified organic land in 2023. Why symbols: hectares is a raw total, and totals belong on symbols rather than coloured areas. Circle AREA shows hectares (in Vega-Lite 'size' is area in square pixels, and the scale starts at 0, so area is proportional to the value). Australia is orange and the other countries are warm grey, so attention goes to Australia (figure-ground). Projection: Equal Earth (equal-area).",
-  "title": {
-    "text": "Certified organic land in 2023, the 15 largest countries. Circle area shows hectares.",
-    "anchor": "start",
-    "font": "'Source Sans 3', sans-serif",
-    "fontSize": 16,
-    "fontWeight": 400,
-    "color": "#5f5f5f",
-    "offset": 16,
-    "lineHeight": 20
-  },
   "width": "container",
   "height": 480,
   "projection": {"type": "equalEarth"},

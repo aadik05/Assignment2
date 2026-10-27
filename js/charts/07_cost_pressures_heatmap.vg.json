@@ -1,21 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "CHART 7 - Heat map (advanced idiom). Rows = cost types, columns = producers (farms) and processors; cell colour = % of surveyed businesses naming that cost as a pressure. Why a heat map: two categorical keys and one value (Kirk). Colour gives the overall pattern; the number in each cell gives the exact value. ColorBrewer Blues in 5 classes of 20% (blue = people and money in the page's colour system). Transforms: joinaggregate calculates each cost's average across both groups, used to sort the rows from biggest to smallest (layered charts can only sort by count, min or max, so I sort by the max of that average); calculate turns each % into a class label. Small surveys (49 producers, 14 processors) are disclosed in the subtitle.",
-  "title": {
-    "text": [
-      "% of surveyed organic businesses naming each cost as a",
-      "pressure, 2026. Producers are farms (49 surveyed); processors",
-      "turn produce into food products (14 surveyed). Small samples,",
-      "so treat these as a rough guide."
-    ],
-    "anchor": "start",
-    "font": "'Source Sans 3', sans-serif",
-    "fontSize": 16,
-    "fontWeight": 400,
-    "color": "#5f5f5f",
-    "offset": 16,
-    "lineHeight": 20
-  },
   "width": "container",
   "height": 330,
   "data": {

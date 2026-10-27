@@ -61,14 +61,14 @@
       <p class="lead">In 2004, 12.1 million hectares of Australian farmland were certified organic. By 2023 it was 53.0 million, more than four times as much and about 15% of all the country's farmland.</p>
       <!-- Chart 1: line chart, full width (12 of 12 columns) -->
       <div class="row">
-        <div class="col-12"><div id="chart1" class="chart"></div></div>
+        <div class="col-12"><p class="chart-subtitle">Certified organic agricultural land in Australia, million hectares, 2004–2023</p><div id="chart1" class="chart"></div></div>
       </div>
       <p class="note">The same total was reported for every year from 2017 to 2022, which suggests the figure was not updated in those years. In 2026 the Department of Agriculture revised its estimate to 44.4 million hectares using a new method. This page uses the UN FAO series so that years and countries can be compared fairly.</p>
       <h3 class="chart-label"><span class="chart-number">1b</span>The world's organic land grew steadily, Australia's grew in two leaps</h3>
       <p>Of all the organic land added worldwide since 2004, 53% was in Australia: 41 of 77 million new hectares. But Australia grew in two big leaps, in 2013–2017 and 2022–2023, while the rest of the world grew steadily. So Australia's share of the world total fell to 27% in 2013 before climbing back to 54%.</p>
       <!-- Chart 6: stacked area chart, full width under its text (same structure as chart 1) -->
       <div class="row">
-        <div class="col-12"><div id="chart6" class="chart"></div></div>
+        <div class="col-12"><p class="chart-subtitle">Certified organic agricultural land, million hectares, 2004–2023. White labels show Australia's share of the world total.</p><div id="chart6" class="chart"></div></div>
       </div>
     </section>
 
@@ -80,13 +80,13 @@
       <p class="lead">As a share of its farmland, Australia (14.6%) ranks 13th in the world, behind countries such as Austria (27%) and Uruguay (25%). Drag the slider to watch organic farming spread since 2004.</p>
       <!-- Chart 2: world choropleth with year slider, full width -->
       <div class="row">
-        <div class="col-12"><div id="chart2" class="chart"></div></div>
+        <div class="col-12"><p class="chart-subtitle">Share of each country's farmland that is certified organic. Drag the slider to move through the years. Grey: no data.</p><div id="chart2" class="chart"></div></div>
       </div>
       <h3 class="chart-label"><span class="chart-number">2b</span>Australia alone has about half of the world's organic farmland</h3>
       <p>Measured in hectares, however, Australia has no rival. Its 53.0 million hectares are more than the next 14 countries combined.</p>
       <!-- Chart 3: proportional symbol map, full width -->
       <div class="row">
-        <div class="col-12"><div id="chart3" class="chart"></div></div>
+        <div class="col-12"><p class="chart-subtitle">Certified organic land in 2023, the 15 largest countries. Circle area shows hectares.</p><div id="chart3" class="chart"></div></div>
       </div>
       <!-- Charts 5 and 4 side by side in a .pair grid: label + text on top (t1, t2), two equal charts below (c1, c2) -->
       <div class="pair">
@@ -98,8 +98,8 @@
           <h3 class="chart-label"><span class="chart-number">2d</span>The land is in the north and centre, the operators in the south-east</h3>
           <p>That land is spread very unevenly. In the Northern Territory, Tasmania and the ACT there are about 136,000 hectares of organic land for every certified operator. In Victoria there are fewer than 100.</p>
         </div>
-        <div class="c1"><div id="chart5" class="chart"></div></div>
-        <div class="c2"><div id="chart4" class="chart"></div></div>
+        <div class="c1"><p class="chart-subtitle">Each square is 1% of the world's certified organic farmland, 2023</p><div id="chart5" class="chart"></div></div>
+        <div class="c2"><p class="chart-subtitle">Organic land per certified operator (colour) and number of operators (circles), by state, 2026. Tasmania and the ACT are reported together with the Northern Territory.</p><div id="chart4" class="chart"></div></div>
       </div>
     </section>
 
@@ -107,7 +107,13 @@
     <section>
       <span class="kicker">Part 3</span>
       <h2>From paddock to port</h2>
-      <p class="lead">Australian organic products are worth about AU$1.02 billion a year: AU$658 million spent in Australian shops and AU$364 million in exports. But the businesses behind it are feeling the squeeze.</p>
+      <!-- Part 3 intro: key numbers as stat cards, same design as the header -->
+      <div class="stats part-stats">
+        <div class="stat"><div class="stat-number">AU$1.02b</div><div class="stat-label">total yearly value: shops plus exports</div></div>
+        <div class="stat"><div class="stat-number">AU$658m</div><div class="stat-label">spent in Australian shops, 2024/25</div></div>
+        <div class="stat"><div class="stat-number">AU$364m</div><div class="stat-label">earned from organic exports, 2024/25</div></div>
+        <div class="stat"><div class="stat-number">42,833 t</div><div class="stat-label">of certified organic produce exported, 2024/25</div></div>
+      </div>
       <h3 class="chart-label"><span class="chart-number">3a</span>Freight is the biggest worry for processors, labour for farmers</h3>
       <!-- Chart 7: text left (col-4), heat map right (col-8) -->
       <div class="row">
@@ -115,19 +121,19 @@
           <p>Almost four in five organic processors say freight and logistics costs are putting pressure on their business. Moving food across a country this big is expensive.</p>
           <p>For farmers, the cost of labour comes first (65%), closely followed by energy and fuel (63%).</p>
         </div>
-        <div class="col-8"><div id="chart7" class="chart"></div></div>
+        <div class="col-8"><p class="chart-subtitle">% of surveyed organic businesses naming each cost as a pressure, 2026. Producers are farms (49 surveyed); processors turn produce into food products (14 surveyed). Small samples, so treat these as a rough guide.</p><div id="chart7" class="chart"></div></div>
       </div>
       <h3 class="chart-label"><span class="chart-number">3b</span>Two-thirds of Australia's organic exports go to the United States</h3>
       <p>Only a small number of these businesses sell overseas: 13% of producers and 14% of processors export. But the organic food that does leave Australia mostly goes to one place.</p>
       <!-- Chart 8: export flow map, full width -->
       <div class="row">
-        <div class="col-12"><div id="chart8" class="chart"></div></div>
+        <div class="col-12"><p class="chart-subtitle">Certified organic exports by destination, tonnes, 2024/25. Line width shows tonnes. The 13 countries shown took 39,913 of the 42,833 tonnes exported; the rest went to other countries in smaller amounts.</p><div id="chart8" class="chart"></div></div>
       </div>
       <h3 class="chart-label"><span class="chart-number">3c</span>Meat makes up almost two-thirds of Australia's organic exports</h3>
       <p>And most of what leaves is meat. Beef sent to the United States alone accounts for 26,483 tonnes, more than half of everything Australia exports as organic.</p>
       <!-- Chart 9: isotype of export products, full width -->
       <div class="row">
-        <div class="col-12"><div id="chart9" class="chart"></div></div>
+        <div class="col-12"><p class="chart-subtitle">Certified organic exports by product type, 2024/25. Each icon = 1,000 tonnes (rounded). *Non-prescribed goods are products that don't need a government export permit, mostly processed and packaged foods.</p><div id="chart9" class="chart"></div></div>
       </div>
     </section>
 
@@ -135,9 +141,23 @@
     <section>
       <span class="kicker">Part 4</span>
       <h2>At the checkout</h2>
-      <p class="lead">Australians spent AU$657.6 million on organic groceries in 2024/25, 11.9% more than the year before. That sounds like booming demand, but it isn't the whole story.</p>
+      <!-- Part 4 intro: one sentence, then a wide "shop receipt" of the key demand numbers
+           (plain HTML/CSS, not a chart; every number is from data/demand_change.csv) -->
+      <p class="lead">Australians spent AU$657.6 million on organic groceries in 2024/25, more than the year before. That sounds like booming demand, but look closely at the receipt.</p>
+      <div class="receipt" role="img" aria-label="Receipt of organic grocery sales in 2024/25: AU$657.6 million spent, up 11.9%; average price per kg up 9.2%; 8.30 million households buying, up 1.8%; share of households buying fell from 77.2% to 76.8%.">
+        <p class="receipt-head">Organic groceries<span>Australia · 2024/25 vs 2023/24</span></p>
+        <dl class="receipt-lines">
+          <div><dt>Total spent</dt><dd>AU$657.6m</dd></div>
+          <div><dt>Change on last year</dt><dd>+11.9%</dd></div>
+          <div class="key"><dt>Average price per kg</dt><dd>+9.2%</dd></div>
+          <div><dt>Households buying</dt><dd>8.30m <small>(+1.8%)</small></dd></div>
+          <div><dt>Share buying organic</dt><dd>76.8% <small>(was 77.2%)</small></dd></div>
+        </dl>
+        <p class="receipt-total"><span>Most of the rise</span><span>Higher prices (see 4a)</span></p>
+        <p class="receipt-foot">Thank you for shopping organic</p>
+      </div>
       <h3 class="chart-label"><span class="chart-number">4a</span>Higher prices explain most of the AU$70 million rise in organic sales</h3>
-      <!-- Chart 10: text left (col-4), waterfall right (col-8) -->
+      <!-- Chart 10: text left (col-4), waterfall right (col-8); text centred against the chart, like 4b and 4d -->
       <div class="row">
         <div class="col-4">
           <p>The average price of organic food per kilogram rose by 9.2% in a year. Most of the extra money spent went on paying more, not on buying more.</p>
@@ -152,13 +172,13 @@
           <p>Fresh vegetables are the biggest of these categories and still growing (+17%). Frozen fruit and desserts grew fastest (+46%).</p>
           <p>Other habits are fading: organic chilled juice sales halved, and ice cream, milk and infant food all fell.</p>
         </div>
-        <div class="col-8"><div id="chart11" class="chart"></div></div>
+        <div class="col-8"><p class="chart-subtitle">Change in organic sales by category, 12 months to June 2025 vs the year before. Biggest risers and fallers only; each category's total sales in brackets.</p><div id="chart11" class="chart"></div></div>
       </div>
       <h3 class="chart-label"><span class="chart-number">4c</span>Four in five organic grocery dollars are spent at the major supermarkets</h3>
       <p>Most of this shopping happens in the same places as everyday groceries. Specialty and independent stores, online shops and farmers selling direct take only a small slice.</p>
       <!-- Chart 12: stacked bar, full width -->
       <div class="row">
-        <div class="col-12"><div id="chart12" class="chart"></div></div>
+        <div class="col-12"><p class="chart-subtitle">Share of organic grocery sales by type of store, 2024/25</p><div id="chart12" class="chart"></div></div>
       </div>
       <h3 class="chart-label"><span class="chart-number">4d</span>Price is still the biggest barrier to buying organic, though it eased slightly</h3>
       <!-- Chart 13: text left (col-4), slope chart right (col-8) -->
@@ -167,7 +187,7 @@
           <p>Price is by far the main reason Australians give for not buying more organic food. Among people who never buy it, more than nine in ten say it costs too much.</p>
           <p>Trust is the second barrier, and it has not improved. One in three organic buyers has unknowingly bought a product that wasn't really certified organic. Australia is the only OECD country without a national standard for the word "organic".</p>
         </div>
-        <div class="col-8"><div id="chart13" class="chart"></div></div>
+        <div class="col-8"><p class="chart-subtitle">% of surveyed Australians naming each barrier, 2022 and 2026. Availability and validation were not asked in 2022.</p><div id="chart13" class="chart"></div></div>
       </div>
     </section>
 

@@ -102,24 +102,23 @@ h1 {
   line-height: 1.1;
 }
 .stat-label { font-size: 15px; color: var(--muted); line-height: 1.4; }
+.part-stats { margin: 24px 0 28px; }   /* the same stat cards used as a section intro (Part 3) */
+.part-stats + .chart-label { margin-top: 48px; }   /* first chart follows the cards closely, no big empty gap */
 
 /* ---------- Sections ---------- */
-section { margin-top: 88px; }   /* plenty of white space between the four parts of the story */
-/* From Part 2 onwards: a thin divider line above each part, so the four parts are clearly separate */
-section + section {
-  margin-top: 96px;
-  padding-top: 72px;
-  border-top: 1px solid var(--line);
-}
+section { margin-top: 88px; }   /* space above Part 1 */
+/* From Part 2 onwards: a clear (but not empty-looking) gap before each part, slightly bigger than the
+   gap between charts inside a part, so the four parts still read as separate sections */
+section + section { margin-top: 64px; }
 /* Small orange "PART 1" label above each section heading */
 .kicker {
   display: inline-block;
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 h2 {
   font-family: "Fraunces", serif;
@@ -158,6 +157,15 @@ h2 + .chart-label { margin-top: 32px; }        /* first chart straight after a p
 .pair-text .chart-label { margin-top: 0; }      /* inside the side-by-side pair */
 .chart-label + .row,
 .chart-label + .pair { margin-top: 20px; }      /* title close to the text and chart it introduces */
+
+/* Small grey line directly above each chart: what is measured, units, years and notes.
+   It is page text (not part of the chart), so it wraps to the full width of its column. */
+.chart-subtitle {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0 0 6px;
+}
 .row > .col-4 p:last-child { margin-bottom: 0; }
 
 /* ---------- 12-column grid ----------
@@ -170,8 +178,11 @@ h2 + .chart-label { margin-top: 32px; }        /* first chart straight after a p
   margin: 32px 0;         /* gap between a chart's text and the chart itself */
   align-items: center;    /* text beside a chart is centred vertically against it */
 }
+.row-top { align-items: start; }   /* text and chart both start at the top of the row (no empty gap above the text) */
 .col-4  { grid-column: span 4; }
 .col-6  { grid-column: span 6; }
+.col-5  { grid-column: span 5; }
+.col-7  { grid-column: span 7; }
 .col-8  { grid-column: span 8; }
 .col-12 { grid-column: span 12; }
 
@@ -197,6 +208,99 @@ h2 + .chart-label { margin-top: 32px; }        /* first chart straight after a p
 }
 .vega-bind input[type="range"] { accent-color: var(--accent); width: 260px; vertical-align: middle; }
 
+/* ---------- Part 4 receipt ----------
+   The key demand numbers set out like a wide shop receipt, matching the "At the checkout" theme.
+   Five items side by side with dotted dividers, a dashed "total" line, and a torn zig-zag bottom edge.
+   tabular-nums makes all digits the same width, so numbers line up like on a real receipt. */
+.receipt {
+  position: relative;
+  background: var(--card);
+  box-shadow: var(--panel-shadow);
+  border-radius: 6px 6px 0 0;
+  padding: 24px 32px 26px;
+  margin: 32px 0 48px;
+  font-variant-numeric: tabular-nums;
+}
+.receipt::after {                     /* torn zig-zag bottom edge, drawn with two small gradients */
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -10px;
+  height: 10px;
+  background:
+    linear-gradient(135deg, var(--card) 7px, transparent 0) 0 0 / 14px 10px repeat-x,
+    linear-gradient(225deg, var(--card) 7px, transparent 0) 0 0 / 14px 10px repeat-x;
+}
+.receipt-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  font-family: "Fraunces", serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px dashed var(--line);
+}
+.receipt-head span {
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.receipt-lines {                      /* the five items in one row */
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0;
+}
+.receipt-lines div {
+  padding: 4px 20px;
+  border-left: 1px dotted #cfcac0;    /* dotted divider between items */
+}
+.receipt-lines div:first-child { padding-left: 0; border-left: none; }
+.receipt-lines dt { font-size: 14px; color: var(--muted); line-height: 1.3; }
+.receipt-lines dd {
+  margin: 6px 0 0;
+  font-family: "Fraunces", serif;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+.receipt-lines dd small {             /* the change in brackets, smaller */
+  display: block;
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.receipt-lines .key dt,
+.receipt-lines .key dd { color: var(--accent); }   /* the key fact: prices */
+.receipt-total {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 18px 0 0;
+  padding-top: 12px;
+  border-top: 2px dashed var(--ink);
+  font-weight: 600;
+  font-size: 17px;
+}
+.receipt-total span:last-child { color: var(--accent); }
+.receipt-foot {
+  margin: 14px 0 0;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+@media (max-width: 860px) {           /* narrow screens: items in two columns */
+  .receipt-lines { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 14px; }
+  .receipt-lines div { border-left: none; padding-left: 0; }
+}
+
 /* ---------- Footer ----------
    Metadata: author, date, data sources, map and image credits, AI acknowledgement. */
 footer {
@@ -217,7 +321,7 @@ footer a { color: var(--green); }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .hero-top { grid-template-columns: 1fr; row-gap: 24px; }
   .hero-image { max-width: 280px; }
-  .col-4, .col-6, .col-8 { grid-column: span 12; }
+  .col-4, .col-5, .col-6, .col-7, .col-8 { grid-column: span 12; }
   h1 { font-size: 40px; }
 }
 
@@ -229,12 +333,11 @@ footer a { color: var(--green); }
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);  /* two equal columns; minmax(0, ...) lets them shrink instead of being pushed wider by their content */
   column-gap: 32px;
   row-gap: 28px;          /* gap between each text and its chart */
-  margin: 32px 0;
+  margin: 96px 0 32px;    /* same big gap above as every other chart group (its titles sit inside the pair) */
   align-items: stretch;           /* both chart panels end up the same height */
 }
 .pair .pair-text { max-width: none; margin: 0; align-self: start; }
 .pair .pair-text p:last-child { margin-bottom: 0; }
-.pair .chart { height: 100%; }   /* each chart box fills its grid cell, so both are the same height */
 /* Place each piece in its cell: column number, row number */
 .pair .t1 { grid-column: 1; grid-row: 1; }
 .pair .t2 { grid-column: 2; grid-row: 1; }

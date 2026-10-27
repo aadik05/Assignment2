@@ -1,20 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "CHART 11 - Diverging bar chart, sorted (basic idiom). The organic grocery categories whose sales grew or fell the most, 12 months to June 2025 vs the year before (NielsenIQ data in the Australian Organic Market Report). Why bars: length from a shared zero line is the most accurate way to compare these nine changes, and sorting makes the ranking instant. Blue = growth, grey = decline (no red and green, which colour-blind readers confuse). Each category's total sales (AU$m) are in brackets so readers can see which changes involve big categories. Transforms: build the label with the sales figure; the y encoding at the top is shared by all layers.",
-  "title": {
-    "text": [
-      "Change in organic sales by category, 12 months to June 2025 vs",
-      "the year before. Biggest risers and fallers only; each category's",
-      "total sales in brackets."
-    ],
-    "anchor": "start",
-    "font": "'Source Sans 3', sans-serif",
-    "fontSize": 16,
-    "fontWeight": 400,
-    "color": "#5f5f5f",
-    "offset": 16,
-    "lineHeight": 20
-  },
   "width": "container",
   "height": 330,
   "data": {
