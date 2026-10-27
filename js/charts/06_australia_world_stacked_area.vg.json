@@ -2,24 +2,17 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "CHART 6 - Stacked area chart (basic idiom). Shows the world's certified organic land split into Australia and the rest of the world, 2004-2023. Why stacked: it shows the world total and Australia's part of it at the same time. Australia sits on the zero baseline, where its size is easiest to judge. Transforms: keep Australia and the World rows; joinaggregate (grouped by year) copies each year's world total onto Australia's row; calculate Australia's share and the rest of the world (world minus Australia) in million ha; fold turns the two columns into two rows per year, which stacking needs; stack_order makes Australia the bottom layer.",
   "title": {
-    "text": ["The world's organic land grew steadily,", "Australia's grew in two leaps"],
-    "subtitle": [
+    "text": [
       "Certified organic agricultural land, million hectares, 2004–2023.",
       "White labels show Australia's share of the world total."
     ],
     "anchor": "start",
-    "font": "Fraunces, serif",
-    "fontSize": 22,
-    "fontWeight": 600,
-    "color": "#2b2b2b",
-    "subtitleFont": "'Source Sans 3', sans-serif",
-    "subtitleFontSize": 16,
-    "subtitleFontWeight": 400,
-    "subtitleColor": "#5f5f5f",
-    "subtitlePadding": 6,
+    "font": "'Source Sans 3', sans-serif",
+    "fontSize": 16,
+    "fontWeight": 400,
+    "color": "#5f5f5f",
     "offset": 16,
-    "lineHeight": 28,
-    "subtitleLineHeight": 20
+    "lineHeight": 20
   },
   "width": "container",
   "height": 300,

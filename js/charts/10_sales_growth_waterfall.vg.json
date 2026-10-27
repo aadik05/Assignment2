@@ -2,25 +2,18 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "CHART 10 - Waterfall chart (advanced idiom). Splits the AU$69.9m rise in organic grocery sales (AU$587.7m in 2023/24 to AU$657.6m in 2024/25) into three parts. This split is MY ESTIMATE from the report's own % changes, and is disclosed in the subtitle: (1) more households buying = 2023/24 sales x 1.8% (the rise in households buying); (2) higher prices = that new total x 9.2% (the rise in average price per kg); (3) buying more or different products = what remains. Why a waterfall: it shows how separate parts add up to one total change, step by step. The baseline is zero, so bar lengths are honest. Transforms: pick the needed numbers from the rows of demand_change.csv (joinaggregate copies them onto every row), calculate the three parts and the total, fold them into 4 rows, then a running total (window sum) gives each bar's start and end.",
   "title": {
-    "text": ["Higher prices explain most of the", "AU$70 million rise in organic sales"],
-    "subtitle": [
+    "text": [
       "Change in organic grocery sales, 2023/24 to 2024/25, AU$ million. Our estimate:",
       "households buying rose 1.8% and the average price per kg rose 9.2%;",
       "the last part is what remains."
     ],
     "anchor": "start",
-    "font": "Fraunces, serif",
-    "fontSize": 22,
-    "fontWeight": 600,
-    "color": "#2b2b2b",
-    "subtitleFont": "'Source Sans 3', sans-serif",
-    "subtitleFontSize": 16,
-    "subtitleFontWeight": 400,
-    "subtitleColor": "#5f5f5f",
-    "subtitlePadding": 6,
+    "font": "'Source Sans 3', sans-serif",
+    "fontSize": 16,
+    "fontWeight": 400,
+    "color": "#5f5f5f",
     "offset": 16,
-    "lineHeight": 28,
-    "subtitleLineHeight": 20
+    "lineHeight": 20
   },
   "width": "container",
   "height": 240,

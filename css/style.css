@@ -13,6 +13,8 @@
   --green-tint: #eef6ea;  /* pale green for the header band */
   --blue: #08519c;        /* people and money (operators, shoppers, prices), same as the charts */
   --context: #b8b2a7;     /* warm grey for "everyone else" in the charts */
+  /* Soft shadow that lifts white panels off the page: a thin outline plus a faint, wide blur */
+  --panel-shadow: 0 0 0 1px var(--line), 0 1px 2px rgba(43, 43, 43, 0.04), 0 8px 24px rgba(43, 43, 43, 0.07);
 }
 
 /* ---------- Page ---------- */
@@ -56,7 +58,7 @@ body {
   width: 100%;
   height: auto;
   border-radius: 12px;
-  box-shadow: 0 0 0 1px var(--line);   /* same thin outline as the chart panels */
+  box-shadow: var(--panel-shadow);   /* same soft outline and shadow as the chart panels */
 }
 /* Small uppercase line above the title ("Organic farming in Australia") */
 .eyebrow {
@@ -88,8 +90,8 @@ h1 {
 }
 .stat {
   background: var(--card);
-  border: 1px solid var(--line);
   border-radius: 10px;
+  box-shadow: var(--panel-shadow);   /* matches the chart panels */
   padding: 16px 18px;
 }
 .stat-number {
@@ -103,6 +105,12 @@ h1 {
 
 /* ---------- Sections ---------- */
 section { margin-top: 88px; }   /* plenty of white space between the four parts of the story */
+/* From Part 2 onwards: a thin divider line above each part, so the four parts are clearly separate */
+section + section {
+  margin-top: 96px;
+  padding-top: 72px;
+  border-top: 1px solid var(--line);
+}
 /* Small orange "PART 1" label above each section heading */
 .kicker {
   display: inline-block;
@@ -126,6 +134,32 @@ p { margin: 0 0 16px; }   /* paragraphs fill the full column width, lining up wi
 .lead { font-size: 20px; }                 /* slightly larger opening paragraph of a section */
 .note { font-size: 15px; color: var(--muted); }   /* small grey notes about data limitations */
 
+/* ---------- Chart titles ----------
+   Each chart's headline title (the message of the chart) sits above its text, not inside the chart.
+   Fraunces bold, larger than any body text but smaller than the part headings (h2), so the hierarchy is
+   part heading > chart title > text > chart. The orange bar repeats the page's accent colour.
+   Spacing rhythm: big gap before a new chart group, small gap title > text, medium gap text > chart. */
+.chart-label {
+  font-family: "Fraunces", serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 96px 0 12px;    /* big gap above: each chart group starts fresh */
+  padding-left: 14px;
+  border-left: 4px solid var(--accent);
+}
+/* Chart number at the start of each title (1a, 1b, 2a ...): part number + letter, in the accent colour */
+.chart-number {
+  color: var(--accent);
+  margin-right: 12px;
+}
+h2 + .chart-label { margin-top: 32px; }        /* first chart straight after a part heading */
+.pair-text .chart-label { margin-top: 0; }      /* inside the side-by-side pair */
+.chart-label + .row,
+.chart-label + .pair { margin-top: 20px; }      /* title close to the text and chart it introduces */
+.row > .col-4 p:last-child { margin-bottom: 0; }
+
 /* ---------- 12-column grid ----------
    Each .row is split into 12 equal columns. .col-4 takes 4 of them (a third), .col-8 two thirds,
    .col-12 the full width. Using one grid for the whole page keeps edges aligned (sight lines). */
@@ -133,7 +167,7 @@ p { margin: 0 0 16px; }   /* paragraphs fill the full column width, lining up wi
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   column-gap: 32px;
-  margin: 32px 0;
+  margin: 32px 0;         /* gap between a chart's text and the chart itself */
   align-items: center;    /* text beside a chart is centred vertically against it */
 }
 .col-4  { grid-column: span 4; }
@@ -141,17 +175,16 @@ p { margin: 0 0 16px; }   /* paragraphs fill the full column width, lining up wi
 .col-8  { grid-column: span 8; }
 .col-12 { grid-column: span 12; }
 
-/* White panel behind each chart: separates figure from ground.
-   Why a transparent border instead of padding: charts use "width": "container", and Vega-Lite
-   measures the box including its padding, so with padding the charts were 24px too wide and
-   overflowed. A border is not counted, so it gives the same inner spacing without overflow.
-   The visible outline is drawn with box-shadow instead. */
+/* Box each chart is drawn into. No background, outline or side spacing, so the charts sit directly on
+   the page background and line up exactly with the text edges. The transparent top and bottom border
+   adds vertical breathing room only; a border (unlike padding) doesn't affect the width that
+   Vega-Lite's "width": "container" measures, so charts never overflow. */
 .chart {
   width: 100%;
-  background: var(--card);
-  border: 24px solid transparent;          /* inner spacing: Vega-Lite measures the width inside this */
-  box-shadow: 0 0 0 1px var(--line);       /* the thin visible outline */
-  border-radius: 12px;
+  background: transparent;
+  border-style: solid;
+  border-color: transparent;
+  border-width: 8px 0;
 }
 
 /* Year slider created by Vega-Lite (chart 2): Vega-Lite puts it inside an element with the class
@@ -190,31 +223,23 @@ footer a { color: var(--green); }
 
 /* ---------- Two charts side by side, text above each ----------
    Used for the waffle (chart 5) and the state map (chart 4). A 2 x 2 grid:
-   row 1 = the two texts (.t1, .t2), row 2 = the two chart panels (.c1, .c2). */
+   row 1 = the two label + text blocks (.t1, .t2), row 2 = the two charts (.c1, .c2). */
 .pair {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);  /* two equal columns; minmax(0, ...) lets them shrink instead of being pushed wider by their content */
   column-gap: 32px;
-  row-gap: 16px;
+  row-gap: 28px;          /* gap between each text and its chart */
   margin: 32px 0;
   align-items: stretch;           /* both chart panels end up the same height */
 }
 .pair .pair-text { max-width: none; margin: 0; align-self: start; }
-.pair .chart { height: 100%; }   /* each panel fills its grid cell, so both panels are the same height */
+.pair .pair-text p:last-child { margin-bottom: 0; }
+.pair .chart { height: 100%; }   /* each chart box fills its grid cell, so both are the same height */
 /* Place each piece in its cell: column number, row number */
 .pair .t1 { grid-column: 1; grid-row: 1; }
 .pair .t2 { grid-column: 2; grid-row: 1; }
 .pair .c1 { grid-column: 1; grid-row: 2; }
 .pair .c2 { grid-column: 2; grid-row: 2; }
-/* Big orange number at the start of a text block (e.g. "54%"): a hook that matches the header stat cards */
-.stat-inline {
-  display: block;   /* puts the number on its own line above the text */
-  font-family: "Fraunces", serif;
-  font-size: 30px;
-  font-weight: 600;
-  line-height: 1.2;
-  color: var(--accent);
-}
 /* On narrow screens: one column, in the order text 1, waffle, text 2, state map */
 @media (max-width: 860px) {
   .pair { grid-template-columns: 1fr; }

@@ -2,24 +2,18 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "CHART 9 - Isotype / pictogram chart (advanced idiom). What Australia exports, by product type, FY2024/25. Each icon = 1,000 tonnes (rounded to whole icons, so products under 500 t get no icon); the exact tonnes and share of all 42,833 t exported are written at the end of each row. Why an isotype: icons make each product instantly recognisable and the counts easy to compare and remember (Week 5 workshop, Neurath's Isotype). Rows are sorted from largest to smallest. Transforms: share = tonnes / 42,833 x 100 (the report's export total); icons = round(tonnes / 1,000). The y encoding at the top is shared by both layers.",
   "title": {
-    "text": "Meat makes up almost two-thirds of Australia's organic exports",
-    "subtitle": [
+    "text": [
       "Certified organic exports by product type, 2024/25. Each icon = 1,000 tonnes (rounded).",
       "*Non-prescribed goods are products that don't need a government export permit,",
       "mostly processed and packaged foods."
     ],
     "anchor": "start",
-    "font": "Fraunces, serif",
-    "fontSize": 22,
-    "fontWeight": 600,
-    "color": "#2b2b2b",
-    "subtitleFont": "'Source Sans 3', sans-serif",
-    "subtitleFontSize": 16,
-    "subtitleFontWeight": 400,
-    "subtitleColor": "#5f5f5f",
-    "subtitlePadding": 6,
+    "font": "'Source Sans 3', sans-serif",
+    "fontSize": 16,
+    "fontWeight": 400,
+    "color": "#5f5f5f",
     "offset": 16,
-    "subtitleLineHeight": 20
+    "lineHeight": 20
   },
   "width": "container",
   "height": 330,

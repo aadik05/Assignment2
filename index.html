@@ -57,19 +57,18 @@
     <section>
       <span class="kicker">Part 1</span>
       <h2>Australia's organic boom</h2>
+      <h3 class="chart-label"><span class="chart-number">1a</span>Australia's certified organic farmland has grown more than fourfold</h3>
       <p class="lead">In 2004, 12.1 million hectares of Australian farmland were certified organic. By 2023 it was 53.0 million, more than four times as much and about 15% of all the country's farmland.</p>
       <!-- Chart 1: line chart, full width (12 of 12 columns) -->
       <div class="row">
         <div class="col-12"><div id="chart1" class="chart"></div></div>
       </div>
       <p class="note">The same total was reported for every year from 2017 to 2022, which suggests the figure was not updated in those years. In 2026 the Department of Agriculture revised its estimate to 44.4 million hectares using a new method. This page uses the UN FAO series so that years and countries can be compared fairly.</p>
-      <!-- Chart 6: text in the left third (col-4), stacked area chart in the right two thirds (col-8) -->
+      <h3 class="chart-label"><span class="chart-number">1b</span>The world's organic land grew steadily, Australia's grew in two leaps</h3>
+      <p>Of all the organic land added worldwide since 2004, 53% was in Australia: 41 of 77 million new hectares. But Australia grew in two big leaps, in 2013–2017 and 2022–2023, while the rest of the world grew steadily. So Australia's share of the world total fell to 27% in 2013 before climbing back to 54%.</p>
+      <!-- Chart 6: stacked area chart, full width under its text (same structure as chart 1) -->
       <div class="row">
-        <div class="col-4">
-          <p><span class="stat-inline">53%</span> Of all the organic land added worldwide since 2004, 53% was in Australia: 41 of 77 million new hectares.</p>
-          <p>But Australia grew in two big leaps, in 2013–2017 and 2022–2023, while the rest of the world grew steadily. So Australia's share of the world total fell to 27% in 2013 before climbing back to 54%.</p>
-        </div>
-        <div class="col-8"><div id="chart6" class="chart"></div></div>
+        <div class="col-12"><div id="chart6" class="chart"></div></div>
       </div>
     </section>
 
@@ -77,20 +76,28 @@
     <section>
       <span class="kicker">Part 2</span>
       <h2>Australia, the organic giant</h2>
+      <h3 class="chart-label"><span class="chart-number">2a</span>15% of Australia's farmland is now certified organic, up from 3% in 2004</h3>
       <p class="lead">As a share of its farmland, Australia (14.6%) ranks 13th in the world, behind countries such as Austria (27%) and Uruguay (25%). Drag the slider to watch organic farming spread since 2004.</p>
       <!-- Chart 2: world choropleth with year slider, full width -->
       <div class="row">
         <div class="col-12"><div id="chart2" class="chart"></div></div>
       </div>
+      <h3 class="chart-label"><span class="chart-number">2b</span>Australia alone has about half of the world's organic farmland</h3>
       <p>Measured in hectares, however, Australia has no rival. Its 53.0 million hectares are more than the next 14 countries combined.</p>
       <!-- Chart 3: proportional symbol map, full width -->
       <div class="row">
         <div class="col-12"><div id="chart3" class="chart"></div></div>
       </div>
-      <!-- Charts 5 and 4 side by side in a .pair grid: two texts on top (t1, t2), two equal chart panels below (c1, c2) -->
+      <!-- Charts 5 and 4 side by side in a .pair grid: label + text on top (t1, t2), two equal charts below (c1, c2) -->
       <div class="pair">
-        <p class="pair-text t1"><span class="stat-inline">54%</span> More than half of all the certified organic farmland on Earth is in Australia. Its 53.0 million hectares are more than the next 14 countries combined.</p>
-        <p class="pair-text t2"><span class="stat-inline">136,000 ha</span> That land is spread very unevenly. In the Northern Territory, Tasmania and the ACT there are about 136,000 hectares of organic land for every certified operator. In Victoria there are fewer than 100.</p>
+        <div class="pair-text t1">
+          <h3 class="chart-label"><span class="chart-number">2c</span>54 of every 100 organic hectares on Earth are Australian</h3>
+          <p>More than half of all the certified organic farmland on Earth is in Australia. Its 53.0 million hectares are more than the next 14 countries combined.</p>
+        </div>
+        <div class="pair-text t2">
+          <h3 class="chart-label"><span class="chart-number">2d</span>The land is in the north and centre, the operators in the south-east</h3>
+          <p>That land is spread very unevenly. In the Northern Territory, Tasmania and the ACT there are about 136,000 hectares of organic land for every certified operator. In Victoria there are fewer than 100.</p>
+        </div>
         <div class="c1"><div id="chart5" class="chart"></div></div>
         <div class="c2"><div id="chart4" class="chart"></div></div>
       </div>
@@ -101,19 +108,22 @@
       <span class="kicker">Part 3</span>
       <h2>From paddock to port</h2>
       <p class="lead">Australian organic products are worth about AU$1.02 billion a year: AU$658 million spent in Australian shops and AU$364 million in exports. But the businesses behind it are feeling the squeeze.</p>
+      <h3 class="chart-label"><span class="chart-number">3a</span>Freight is the biggest worry for processors, labour for farmers</h3>
       <!-- Chart 7: text left (col-4), heat map right (col-8) -->
       <div class="row">
         <div class="col-4">
-          <p><span class="stat-inline">79%</span> Almost four in five organic processors say freight and logistics costs are putting pressure on their business. Moving food across a country this big is expensive.</p>
+          <p>Almost four in five organic processors say freight and logistics costs are putting pressure on their business. Moving food across a country this big is expensive.</p>
           <p>For farmers, the cost of labour comes first (65%), closely followed by energy and fuel (63%).</p>
         </div>
         <div class="col-8"><div id="chart7" class="chart"></div></div>
       </div>
+      <h3 class="chart-label"><span class="chart-number">3b</span>Two-thirds of Australia's organic exports go to the United States</h3>
       <p>Only a small number of these businesses sell overseas: 13% of producers and 14% of processors export. But the organic food that does leave Australia mostly goes to one place.</p>
       <!-- Chart 8: export flow map, full width -->
       <div class="row">
         <div class="col-12"><div id="chart8" class="chart"></div></div>
       </div>
+      <h3 class="chart-label"><span class="chart-number">3c</span>Meat makes up almost two-thirds of Australia's organic exports</h3>
       <p>And most of what leaves is meat. Beef sent to the United States alone accounts for 26,483 tonnes, more than half of everything Australia exports as organic.</p>
       <!-- Chart 9: isotype of export products, full width -->
       <div class="row">
@@ -126,39 +136,43 @@
       <span class="kicker">Part 4</span>
       <h2>At the checkout</h2>
       <p class="lead">Australians spent AU$657.6 million on organic groceries in 2024/25, 11.9% more than the year before. That sounds like booming demand, but it isn't the whole story.</p>
+      <h3 class="chart-label"><span class="chart-number">4a</span>Higher prices explain most of the AU$70 million rise in organic sales</h3>
       <!-- Chart 10: text left (col-4), waterfall right (col-8) -->
       <div class="row">
         <div class="col-4">
-          <p><span class="stat-inline">+9.2%</span> The average price of organic food per kilogram rose by 9.2% in a year. Most of the extra money spent went on paying more, not on buying more.</p>
+          <p>The average price of organic food per kilogram rose by 9.2% in a year. Most of the extra money spent went on paying more, not on buying more.</p>
           <p>The number of households buying organic grew only a little (+1.8%), and the share of households buying it at all slipped from 77.2% to 76.8%.</p>
         </div>
         <div class="col-8"><div id="chart10" class="chart"></div></div>
       </div>
+      <h3 class="chart-label"><span class="chart-number">4b</span>Frozen fruit and fresh meat surged, chilled juice sales halved</h3>
       <!-- Chart 11: text left (col-4), diverging bars right (col-8) -->
       <div class="row">
         <div class="col-4">
-          <p><span class="stat-inline">AU$46.3m</span> Fresh vegetables are the biggest of these categories and still growing (+17%). Frozen fruit and desserts grew fastest (+46%).</p>
+          <p>Fresh vegetables are the biggest of these categories and still growing (+17%). Frozen fruit and desserts grew fastest (+46%).</p>
           <p>Other habits are fading: organic chilled juice sales halved, and ice cream, milk and infant food all fell.</p>
         </div>
         <div class="col-8"><div id="chart11" class="chart"></div></div>
       </div>
+      <h3 class="chart-label"><span class="chart-number">4c</span>Four in five organic grocery dollars are spent at the major supermarkets</h3>
       <p>Most of this shopping happens in the same places as everyday groceries. Specialty and independent stores, online shops and farmers selling direct take only a small slice.</p>
       <!-- Chart 12: stacked bar, full width -->
       <div class="row">
         <div class="col-12"><div id="chart12" class="chart"></div></div>
       </div>
+      <h3 class="chart-label"><span class="chart-number">4d</span>Price is still the biggest barrier to buying organic, though it eased slightly</h3>
       <!-- Chart 13: text left (col-4), slope chart right (col-8) -->
       <div class="row">
         <div class="col-4">
-          <p><span class="stat-inline">80%</span> Price is by far the main reason Australians give for not buying more organic food. Among people who never buy it, more than nine in ten say it costs too much.</p>
+          <p>Price is by far the main reason Australians give for not buying more organic food. Among people who never buy it, more than nine in ten say it costs too much.</p>
           <p>Trust is the second barrier, and it has not improved. One in three organic buyers has unknowingly bought a product that wasn't really certified organic. Australia is the only OECD country without a national standard for the word "organic".</p>
         </div>
         <div class="col-8"><div id="chart13" class="chart"></div></div>
       </div>
     </section>
 
-    <!-- CONCLUSION: answers the question asked in the introduction -->
-    <section>
+    <!-- CONCLUSION: answers the question asked in the introduction  -->
+    <section class="conclusion">
       <span class="kicker">In short</span>
       <h2>A giant abroad, a slow climber at home</h2>
       <p class="lead">Australia farms about half of the world's certified organic land. More than a third of the industry's sales by value are exports, and two-thirds of those exports by weight go to the United States, mostly as beef.</p>

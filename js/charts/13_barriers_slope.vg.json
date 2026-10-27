@@ -2,24 +2,17 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "CHART 13 - Slope chart (advanced idiom). The main reasons Australians give for not buying (more) organic food, 2022 vs 2026 (Mobium Group Organic Consumer Research, in the Australian Organic Market Report). Why a slope chart: two points in time for a few categories; the slope of each line shows at a glance whether a barrier grew, shrank or stayed the same (Kirk). It is a true slope graph (two parallel time axes joined by lines), not a dumbbell/dot plot. Availability and validation were only asked in 2026, so they appear as dots on the 2026 side with no line. Orange = the key fact (price), grey = the other barriers. The x and y encodings at the top are shared by all layers.",
   "title": {
-    "text": ["Price is still the biggest barrier to", "buying organic, though it eased slightly"],
-    "subtitle": [
+    "text": [
       "% of surveyed Australians naming each barrier, 2022 and 2026.",
       "Availability and validation were not asked in 2022."
     ],
     "anchor": "start",
-    "font": "Fraunces, serif",
-    "fontSize": 22,
-    "fontWeight": 600,
-    "color": "#2b2b2b",
-    "subtitleFont": "'Source Sans 3', sans-serif",
-    "subtitleFontSize": 16,
-    "subtitleFontWeight": 400,
-    "subtitleColor": "#5f5f5f",
-    "subtitlePadding": 6,
+    "font": "'Source Sans 3', sans-serif",
+    "fontSize": 16,
+    "fontWeight": 400,
+    "color": "#5f5f5f",
     "offset": 16,
-    "lineHeight": 28,
-    "subtitleLineHeight": 20
+    "lineHeight": 20
   },
   "width": "container",
   "height": 300,

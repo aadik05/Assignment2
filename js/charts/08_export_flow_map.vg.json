@@ -2,24 +2,18 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "CHART 8 - Origin-destination flow map (advanced idiom: map). Curved lines from Australia to 13 export destinations; line WIDTH shows tonnes (FY2024/25, Department of Agriculture data in the Australian Organic Market Report). Projection: Equal Earth rotated -150 degrees so the map is centred on the Pacific and the US flow crosses the ocean instead of the edge of the map. Every curve bends the same way to reduce overlaps (Jenny et al. 2018 design principles for flow maps). Australia's origin is its centre point (133.78, -25.27).",
   "title": {
-    "text": "Two-thirds of Australia's organic exports go to the United States",
-    "subtitle": [
+    "text": [
       "Certified organic exports by destination, tonnes, 2024/25. Line width shows tonnes.",
       "The 13 countries shown took 39,913 of the 42,833 tonnes exported; the rest",
       "went to other countries in smaller amounts."
     ],
     "anchor": "start",
-    "font": "Fraunces, serif",
-    "fontSize": 22,
-    "fontWeight": 600,
-    "color": "#2b2b2b",
-    "subtitleFont": "'Source Sans 3', sans-serif",
-    "subtitleFontSize": 16,
-    "subtitleFontWeight": 400,
-    "subtitleColor": "#5f5f5f",
-    "subtitlePadding": 6,
+    "font": "'Source Sans 3', sans-serif",
+    "fontSize": 16,
+    "fontWeight": 400,
+    "color": "#5f5f5f",
     "offset": 16,
-    "subtitleLineHeight": 20
+    "lineHeight": 20
   },
   "width": "container",
   "height": 480,

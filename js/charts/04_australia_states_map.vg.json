@@ -2,25 +2,18 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "CHART 4 - Bivariate map: choropleth plus proportional symbols (advanced idiom: map). Colour of each state = certified organic hectares PER certified operator (a standardised ratio, so state size doesn't mislead). Blue circles = number of certified operators (a raw count, so it goes on symbols). Two attributes, two channels: colour lightness on area marks and size on point marks. Projection: conic equal-area, because Australia is a landscape-shaped area at mid latitudes; the standard parallels (-18 and -36) sit inside Australia's latitude range and rotate -134 centres the map on 134 degrees east. State shapes: Natural Earth admin-1, filtered to Australia and simplified in mapshaper.",
   "title": {
-    "text": ["The land is in the north and centre,", "the operators in the south-east"],
-    "subtitle": [
+    "text": [
       "Organic land per certified operator (colour) and number of",
       "operators (circles), by state, 2026. Tasmania and the ACT",
       "are reported together with the Northern Territory."
     ],
     "anchor": "start",
-    "font": "Fraunces, serif",
-    "fontSize": 22,
-    "fontWeight": 600,
-    "color": "#2b2b2b",
-    "subtitleFont": "'Source Sans 3', sans-serif",
-    "subtitleFontSize": 16,
-    "subtitleFontWeight": 400,
-    "subtitleColor": "#5f5f5f",
-    "subtitlePadding": 6,
+    "font": "'Source Sans 3', sans-serif",
+    "fontSize": 16,
+    "fontWeight": 400,
+    "color": "#5f5f5f",
     "offset": 16,
-    "lineHeight": 28,
-    "subtitleLineHeight": 20
+    "lineHeight": 20
   },
   "width": "container",
   "height": 340,
